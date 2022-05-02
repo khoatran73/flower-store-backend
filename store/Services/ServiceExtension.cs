@@ -5,5 +5,6 @@ public static class ServiceExtension
     public static void AddService(this IServiceCollection services)
     {
         services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<IFileService, FileService>();
     }
 }

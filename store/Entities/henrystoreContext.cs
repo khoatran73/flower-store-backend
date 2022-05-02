@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using store.demoentities;
 
 namespace store.Entities
 {
@@ -550,6 +548,33 @@ namespace store.Entities
                     .WithMany(p => p.staff)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("fk_staff_users");
+            });
+            
+            modelBuilder.Entity<FileEntry>(entity =>
+            {
+                entity.ToTable("fileEntry");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.FileLocation)
+                    .IsUnicode(false)
+                    .HasColumnName("fileLocation");
+
+                entity.Property(e => e.FileName).HasColumnName("fileName");
+
+                entity.Property(e => e.RootFolder)
+                    .IsUnicode(false)
+                    .HasColumnName("rootFolder");
+
+                entity.Property(e => e.Size).HasColumnName("size");
+
+                entity.Property(e => e.UploadedTime)
+                    .HasColumnType("date")
+                    .HasColumnName("uploadedTime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             OnModelCreatingPartial(modelBuilder);

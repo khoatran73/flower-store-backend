@@ -10,10 +10,12 @@ namespace store.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly IFileService _fileService;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, IFileService fileService)
     {
         _productService = productService;
+        _fileService = fileService;
     }
 
     [HttpGet(@"")]
@@ -28,15 +30,48 @@ public class ProductController : ControllerBase
         });
     }
     
-    [HttpPost(@"/create")]
-    public async Task<IActionResult> Create([FromBody] ProductCreateDto createDto)
+    [HttpGet(@"{id}")]
+    public async Task<IActionResult> Get([FromRoute] string id)
     {
-        var result = await _productService.Create(createDto);
+        var result = await _productService.Get(id);
         return Ok(new ApiResponse<ProductDto>()
         {
             Success = true,
             Message = "",
             Result = result
         });
+    }
+    
+    [HttpPost(@"create")]
+    public async Task<IActionResult> Create([FromForm] ProductCreateDto createDto)
+    {
+        var filePath = await _fileService.UploadFile(createDto.File, "Uploads/product");
+        createDto.Image = filePath;
+        var result = await _productService.Create(createDto);
+        
+        return Ok(new ApiResponse<ProductDto>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
+    }
+    
+    [HttpDelete(@"delete/{id}")]
+    public async Task<IActionResult> Delete([FromRoute] string id)
+    {
+        try
+        {
+            await _productService.Delete(id);
+            return Ok(new ApiResponse<ProductDto>()
+            {
+                Success = true,
+                Message = "",
+            });
+        }
+        catch 
+        {
+            throw new Exception("Some Error");
+        }
     }
 }

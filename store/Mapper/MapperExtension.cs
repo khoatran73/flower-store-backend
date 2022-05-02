@@ -6,9 +6,10 @@ public static class MapperExtension
 {
     public static IMapper AddMapper()
     {
-        var mapperConfig = new MapperConfiguration(mc =>
+        var mapperConfig = new MapperConfiguration(config =>
         {
-            mc.AddProfile(new ProductProfile());
+            config.AddProfile(new ProductProfile());
+            config.AddProfile(new FileProfile());
         });
 
         return mapperConfig.CreateMapper();
