@@ -1,6 +1,6 @@
 ﻿namespace store.Api;
 
-public class ApiResponse<TResult> where TResult : class
+public class ApiResponse<TResult>
 {
     public bool Success { get; set; }
     public string Message { get; set; }

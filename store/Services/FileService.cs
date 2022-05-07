@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using store.demoentities;
 using store.Entities;
 
 namespace store.Services;

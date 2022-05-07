@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using store.Dto.Product;
 using store.Entities;
@@ -19,12 +20,14 @@ public class ProductService : IProductService
     public async Task<List<ProductDto>> GetList()
     {
         var productDtos = await _context.Products
-            .Select(x => _mapper.Map<Product, ProductDto>(x)).ToListAsync();
+            .OrderByDescending(x => x.CreatedAt)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
         return new List<ProductDto>(productDtos);
     }
 
-    public async Task<ProductDto> Get(string id)
+    public async Task<ProductDto> Get(Guid id)
     {
         var product = await _context.Products
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -38,13 +41,36 @@ public class ProductService : IProductService
     public async Task<ProductDto> Create(ProductCreateDto productCreateDto)
     {
         var product = _mapper.Map<ProductCreateDto, Product>(productCreateDto);
-        product.Id = Guid.NewGuid().ToString();
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
         return _mapper.Map<Product, ProductDto>(product);
     }
 
-    public async Task Delete(string id)
+    public async Task<ProductDto> Update(ProductUpdateDto updateDto, Guid id)
+    {
+        var product = await _context.Products
+            .FirstOrDefaultAsync(x => x.Id == id);
+        
+        if (product == null) throw new Exception("Not found");
+
+        product.Name = updateDto.Name;
+        
+        if (updateDto.UnitPrice != null)  
+            product.UnitPrice = updateDto.UnitPrice;
+        if (updateDto.CategoryId.HasValue)
+            product.CategoryId = updateDto.CategoryId;
+        if (updateDto.TotalQuantity != null)  
+            product.TotalQuantity = updateDto.TotalQuantity;
+        if (updateDto.Description != null)  
+            product.Description = updateDto.Description;
+        if (updateDto.Image != null)  
+            product.Image = updateDto.Image;
+        
+        await _context.SaveChangesAsync();
+        return _mapper.Map<Product, ProductDto>(product);
+    }
+
+    public async Task Delete(Guid id)
     {
         var product = await _context.Products
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -53,5 +79,15 @@ public class ProductService : IProductService
         
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<CategoryDto>> ListCategory()
+    {
+        var categories = await _context.ProductCategories
+            .Select(x => x)
+            .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+
+        return categories;
     }
 }

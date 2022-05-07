@@ -29,9 +29,9 @@ public class ProductController : ControllerBase
             Result = result
         });
     }
-    
+
     [HttpGet(@"{id}")]
-    public async Task<IActionResult> Get([FromRoute] string id)
+    public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var result = await _productService.Get(id);
         return Ok(new ApiResponse<ProductDto>()
@@ -41,14 +41,14 @@ public class ProductController : ControllerBase
             Result = result
         });
     }
-    
+
     [HttpPost(@"create")]
     public async Task<IActionResult> Create([FromForm] ProductCreateDto createDto)
     {
         var filePath = await _fileService.UploadFile(createDto.File, "Uploads/product");
         createDto.Image = filePath;
         var result = await _productService.Create(createDto);
-        
+
         return Ok(new ApiResponse<ProductDto>()
         {
             Success = true,
@@ -56,9 +56,9 @@ public class ProductController : ControllerBase
             Result = result
         });
     }
-    
+
     [HttpDelete(@"delete/{id}")]
-    public async Task<IActionResult> Delete([FromRoute] string id)
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         try
         {
@@ -69,9 +69,40 @@ public class ProductController : ControllerBase
                 Message = "",
             });
         }
-        catch 
+        catch
         {
             throw new Exception("Some Error");
         }
+    }
+
+    [HttpPut(@"update/{id:guid}")]
+    public async Task<IActionResult> Update([FromForm] ProductUpdateDto updateDto, [FromRoute] Guid id)
+    {
+        if (updateDto.File != null)
+        {
+            var filePath = await _fileService.UploadFile(updateDto.File, "Uploads/product");
+            updateDto.Image = filePath;
+        }
+
+        var result = await _productService.Update(updateDto, id);
+
+        return Ok(new ApiResponse<ProductDto>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
+    }
+
+    [HttpGet(@"categories")]
+    public async Task<IActionResult> ListCategory()
+    {
+        var result = await _productService.ListCategory();
+        return Ok(new ApiResponse<List<CategoryDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
     }
 }

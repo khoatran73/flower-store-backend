@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "0osvbsC5rVxQ8WORHFkaSYOrb5jMTCHdGqDG8h4KxRsBgBM9NsF57KPnSYI+ziJCOHCkSQPe5Ar3NNcfRZlvnw==",
+  "dgSpecHash": "CWaJ5B1dPDOJtpFW3Nue9L3iKF/xD0uzX6saOy+oyy9cZ0cSxNWsUsFeL3wqROPrn1cbtkv2MRY1TCrFHsOrzQ==",
   "success": true,
-  "projectFilePath": "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\store.csproj",
+  "projectFilePath": "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\store.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trana\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\trana\\.nuget\\packages\\fluentvalidation\\11.0.0\\fluentvalidation.11.0.0.nupkg.sha512",
+    "C:\\Users\\trana\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.0.0\\fluentvalidation.aspnetcore.11.0.0.nupkg.sha512",
+    "C:\\Users\\trana\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.0.0\\fluentvalidation.dependencyinjectionextensions.11.0.0.nupkg.sha512",
     "C:\\Users\\trana\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\trana\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\trana\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",

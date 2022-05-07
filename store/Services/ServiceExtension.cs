@@ -6,5 +6,8 @@ public static class ServiceExtension
     {
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IFileService, FileService>();
+        services.AddTransient<IAuthenticateService, AuthenticateService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IStoreService, StoreService>();
     }
 }

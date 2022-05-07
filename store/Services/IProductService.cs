@@ -5,7 +5,10 @@ namespace store.Services;
 public interface IProductService
 {
     Task<List<ProductDto>> GetList();
-    Task<ProductDto> Get(string id);
+    Task<ProductDto> Get(Guid id);
     Task<ProductDto> Create(ProductCreateDto productCreateDto);
-    Task Delete(string id);
+    Task<ProductDto> Update(ProductUpdateDto updateDto, Guid id);
+    Task Delete(Guid id);
+
+    Task<List<CategoryDto>> ListCategory();
 }

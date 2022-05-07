@@ -9,7 +9,9 @@ public static class MapperExtension
         var mapperConfig = new MapperConfiguration(config =>
         {
             config.AddProfile(new ProductProfile());
-            config.AddProfile(new FileProfile());
+            config.AddProfile(new AuthenticateProfile());
+            config.AddProfile(new UserProfile());
+            config.AddProfile(new StoreProfile());
         });
 
         return mapperConfig.CreateMapper();

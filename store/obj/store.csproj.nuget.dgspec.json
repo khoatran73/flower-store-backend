@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\store.csproj": {}
+    "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\store.csproj": {}
   },
   "projects": {
-    "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\store.csproj": {
+    "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\store.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\store.csproj",
+        "projectUniqueName": "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\store.csproj",
         "projectName": "store",
-        "projectPath": "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\store.csproj",
+        "projectPath": "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\store.csproj",
         "packagesPath": "C:\\Users\\trana\\.nuget\\packages\\",
-        "outputPath": "E:\\Study\\Nam3\\Ky2\\CĐCNPM\\final\\store\\henrystore\\store\\obj\\",
+        "outputPath": "E:\\Study\\Nam3\\Ky2\\CDCNPM\\final\\flower-store\\henrystore\\store\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -44,6 +44,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[11.0.1, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

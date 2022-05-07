@@ -7,18 +7,18 @@ namespace store.Entities
     {
         public Comment()
         {
-            Reactions = new HashSet<Reaction>();
+            Accounts = new HashSet<Account>();
         }
 
-        public string Id { get; set; } = null!;
-        public string? AccountId { get; set; }
-        public string? ProductId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? AccountId { get; set; }
+        public Guid? ProductId { get; set; }
         public string? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public Guid Rowguid { get; set; }
 
         public virtual Account? Account { get; set; }
         public virtual Product? Product { get; set; }
-        public virtual ICollection<Reaction> Reactions { get; set; }
+
+        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using store.Dto.Authenticate;
 using store.Entities;
 using store.Mapper;
 using store.Services;
@@ -18,6 +21,8 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddControllers();
         services.AddService();
+        services.AddScoped<IValidator<RegisterDto>, ValidateRegisterDto>();
+        
         var mapper = MapperExtension.AddMapper();
         services.AddSingleton(mapper);
 
@@ -26,7 +31,8 @@ public class Startup
             options.AddPolicy(name: "cors",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
+                    builder
+                        .WithOrigins("http://localhost:3000")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -37,7 +43,7 @@ public class Startup
         {
             var connectionString = new SqlConnectionStringBuilder()
             {
-                DataSource = "KHOA-PRO\\TRAMCHU",
+                DataSource = "KHOA-PRO\\MAYCHU",
                 InitialCatalog = "henrystore",
                 UserID = "sa",
                 Password = "123456"

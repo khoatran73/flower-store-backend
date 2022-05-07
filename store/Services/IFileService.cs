@@ -1,6 +1,4 @@
-﻿using store.Dto.File;
-
-namespace store.Services;
+﻿namespace store.Services;
 
 public interface IFileService
 {
