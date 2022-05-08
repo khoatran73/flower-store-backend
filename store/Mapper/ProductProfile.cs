@@ -8,8 +8,6 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        // CreateMap<Product, ProductDto>().ForMember(x => x.Image, opt 
-        // => opt.MapFrom(x => Path.GetFullPath(x.Image)));
         CreateMap<Product, ProductDto>();
         CreateMap<ProductCreateDto, Product>();
         CreateMap<ProductUpdateDto, Product>();

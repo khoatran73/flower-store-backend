@@ -17,6 +17,19 @@ public class OrderController : ControllerBase
         _orderService = orderService;
         _cartService = cartService;
     }
+    
+    [HttpGet(@"")]
+    public async Task<IActionResult> Index()
+    {
+        var result = await _orderService.Index();
+        
+        return Ok(new ApiResponse<List<OrderDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
 
     [HttpPost(@"create")]
     public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto createDto)

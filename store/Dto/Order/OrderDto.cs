@@ -1,4 +1,7 @@
-﻿namespace store.Dto.Order;
+﻿using store.Dto.Cart;
+using store.Dto.User;
+
+namespace store.Dto.Order;
 
 public class OrderDto
 {
@@ -13,4 +16,6 @@ public class OrderDto
     public string? Status { get; set; }
     public DateTime? DeliveryAt { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public virtual CartDto? Cart { get; set; }
+    public virtual UserDto? Customer { get; set; }
 }

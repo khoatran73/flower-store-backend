@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using store.Dto.Order;
 using store.Entities;
 
@@ -13,6 +15,14 @@ public class OrderService : IOrderService
     {
         _context = context;
         _mapper = mapper;
+    }
+
+    public async Task<List<OrderDto>> Index()
+    {
+        return await _context.Orders
+            .OrderByDescending(x => x.CreatedAt)
+            .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
     }
 
     public async Task<OrderDto> CreateOrder(OrderCreateDto createDto)

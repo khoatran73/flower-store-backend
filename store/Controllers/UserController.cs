@@ -49,6 +49,19 @@ public class UserController : ControllerBase
             Result = result,
         });
     }
+    
+    [HttpGet(@"list-customer")]
+    public async Task<IActionResult> ListCustomer()
+    {
+        var result = await _userService.ListCustomer();
+
+        return Ok(new ApiResponse<List<UserDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
 
 
     [HttpPost(@"test-image")]

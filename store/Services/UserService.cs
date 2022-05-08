@@ -65,6 +65,15 @@ public class UserService : IUserService
         return customer.Id;
     }
 
+    public async Task<List<UserDto>> ListCustomer()
+    {
+        return  await _context.Customers
+            .Where(x => x.Account != null && x.Account.Role == "customer")
+            .Select(x => x)
+            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
     // public async Task UpdateCustomer(UserCreateDto createDto)
     // {
     //     var account = _context.Accounts.FirstOrDefault(x => x.Id == createDto.Account.);
