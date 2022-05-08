@@ -10,6 +10,7 @@ public class ProductService : IProductService
 {
     private readonly henrystoreContext _context;
     private readonly IMapper _mapper;
+    private const int LimitRelatedProduct = 5;
 
     public ProductService(henrystoreContext context, IMapper mapper)
     {
@@ -17,19 +18,29 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<List<ProductDto>> GetList()
+    public async Task<List<ProductDto>> GetList(Guid? id, Guid? categoryId)
     {
-        var productDtos = await _context.Products
+        if (categoryId != null && id != null)
+        {
+            return await _context.Products
+                .Where(x => x.CategoryId == categoryId)
+                .Where(x => x.Id != id)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(LimitRelatedProduct)
+                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        return await _context.Products
             .OrderByDescending(x => x.CreatedAt)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
-
-        return new List<ProductDto>(productDtos);
     }
 
     public async Task<ProductDto> Get(Guid id)
     {
         var product = await _context.Products
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (product == null) throw new Exception("Not found");
@@ -50,22 +61,22 @@ public class ProductService : IProductService
     {
         var product = await _context.Products
             .FirstOrDefaultAsync(x => x.Id == id);
-        
+
         if (product == null) throw new Exception("Not found");
 
         product.Name = updateDto.Name;
-        
-        if (updateDto.UnitPrice != null)  
+
+        if (updateDto.UnitPrice != null)
             product.UnitPrice = updateDto.UnitPrice;
         if (updateDto.CategoryId.HasValue)
             product.CategoryId = updateDto.CategoryId;
-        if (updateDto.TotalQuantity != null)  
+        if (updateDto.TotalQuantity != null)
             product.TotalQuantity = updateDto.TotalQuantity;
-        if (updateDto.Description != null)  
+        if (updateDto.Description != null)
             product.Description = updateDto.Description;
-        if (updateDto.Image != null)  
+        if (updateDto.Image != null)
             product.Image = updateDto.Image;
-        
+
         await _context.SaveChangesAsync();
         return _mapper.Map<Product, ProductDto>(product);
     }
@@ -76,7 +87,7 @@ public class ProductService : IProductService
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (product == null) throw new Exception("Not found");
-        
+
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
     }

@@ -34,7 +34,8 @@ public class UserService : IUserService
 
     public async Task<List<UserDto>> ListStaff()
     {
-        var userDtos = await _context.staff.Select(x => x)
+        var userDtos = await _context.staff
+            .Where(x => x.Account.Role != "customer")
             .Select(x => x)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .ToListAsync();

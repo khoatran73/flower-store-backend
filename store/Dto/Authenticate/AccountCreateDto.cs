@@ -14,5 +14,5 @@ public class AccountCreateDto
     public string? Address { get; set; }
     public string? Email { get; set; }
     public DateTime? Birthday { get; set; }
-    public IFormFile File { get; set; }
+    public IFormFile? File { get; set; }
 }

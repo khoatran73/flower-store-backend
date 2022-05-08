@@ -8,7 +8,7 @@ public class FileService : IFileService
     private readonly henrystoreContext _context;
     private readonly IMapper _mapper;
     private readonly IHostEnvironment _hostingEnvironment;
-    public static readonly string[] AllowExt = {".png", ".jpg", ".jpeg"};
+    public static readonly string[] AllowExt = {".png", ".jpg", ".jpeg", ".webp"};
 
     public FileService(henrystoreContext context, IMapper mapper, IHostEnvironment hostingEnvironment)
     {
@@ -24,7 +24,7 @@ public class FileService : IFileService
 
         var fileExtension = Path.GetExtension(file.FileName);
         if (!AllowExt.Contains(fileExtension)) throw new Exception("Định dạng file không hợp lệ");
-        
+
         var filePath = Path.Combine(folder,
             $"{Guid.NewGuid().ToString()}{fileExtension}");
 
@@ -32,6 +32,6 @@ public class FileService : IFileService
         await using var stream = File.Create(filePath);
         await file.CopyToAsync(stream);
 
-        return filePath;
+        return Path.GetFullPath(filePath);
     }
 }

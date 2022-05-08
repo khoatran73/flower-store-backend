@@ -11,17 +11,19 @@ public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
     private readonly IFileService _fileService;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public ProductController(IProductService productService, IFileService fileService)
+    public ProductController(IProductService productService, IFileService fileService, ICloudinaryService cloudinaryService)
     {
         _productService = productService;
         _fileService = fileService;
+        _cloudinaryService = cloudinaryService;
     }
 
     [HttpGet(@"")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] Guid? id, Guid? categoryId)
     {
-        var result = await _productService.GetList();
+        var result = await _productService.GetList(id, categoryId);
         return Ok(new ApiResponse<List<ProductDto>>()
         {
             Success = true,
@@ -46,7 +48,9 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Create([FromForm] ProductCreateDto createDto)
     {
         var filePath = await _fileService.UploadFile(createDto.File, "Uploads/product");
-        createDto.Image = filePath;
+        var imageUploadResult = await _cloudinaryService.UploadImage(filePath, "Flower-store");
+        var image = imageUploadResult.Url.ToString();
+        createDto.Image = image;
         var result = await _productService.Create(createDto);
 
         return Ok(new ApiResponse<ProductDto>()
@@ -81,7 +85,9 @@ public class ProductController : ControllerBase
         if (updateDto.File != null)
         {
             var filePath = await _fileService.UploadFile(updateDto.File, "Uploads/product");
-            updateDto.Image = filePath;
+            var imageUploadResult = await _cloudinaryService.UploadImage(filePath, "Flower-store");
+            var image = imageUploadResult.Url.ToString();
+            updateDto.Image = image;
         }
 
         var result = await _productService.Update(updateDto, id);

@@ -9,5 +9,6 @@ public static class ServiceExtension
         services.AddTransient<IAuthenticateService, AuthenticateService>();
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IStoreService, StoreService>();
+        services.AddTransient<ICloudinaryService, CloudinaryService>();
     }
 }
