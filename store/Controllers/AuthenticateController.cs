@@ -33,6 +33,18 @@ public class AuthenticateController : ControllerBase
         });
     }
     
+    [HttpGet(@"{id:guid}")]
+    public async Task<IActionResult> GetAccount([FromRoute] Guid id)
+    {
+        var result = await _authenticateService.GetAccount(id);
+        return Ok(new ApiResponse<AccountDto>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
+    }
+    
     [HttpPost(@"register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
@@ -53,6 +65,20 @@ public class AuthenticateController : ControllerBase
         var result = await _authenticateService.Login(loginDto);
 
         return Ok(new ApiResponse<AccountDetailDto>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
+    
+    [HttpPost(@"update-account")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Update(AccountUpdateDto updateDto)
+    {
+        var result = await _authenticateService.UpdateAccount(updateDto);
+
+        return Ok(new ApiResponse<AccountDto>()
         {
             Success = true,
             Message = "",

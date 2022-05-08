@@ -130,6 +130,8 @@ namespace store.Entities
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
+                
+                entity.Property(e => e.IsDone).HasColumnName("isDone");
 
                 entity.Property(e => e.TotalQuantity).HasColumnName("totalQuantity");
 
@@ -330,6 +332,8 @@ namespace store.Entities
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+                
+                entity.Property(e => e.Code).HasColumnName("code");
             });
 
             modelBuilder.Entity<ProductInStore>(entity =>

@@ -39,10 +39,15 @@ public class AuthenticateService : IAuthenticateService
             Username = registerDto.Username,
             Salt = salt,
             PasswordHash = passwordHash,
-            Role = "0",
-            IsActive = false,
+            Role = "customer",
         };
         _context.Accounts.Add(account);
+        await _context.SaveChangesAsync();
+        
+        _context.Customers.Add(new Customer()
+        {
+            AccountId = account.Id,
+        });
         await _context.SaveChangesAsync();
 
         return true;
@@ -78,6 +83,26 @@ public class AuthenticateService : IAuthenticateService
 
         _context.Accounts.Add(account);
         await _context.SaveChangesAsync();
+
+        return _mapper.Map<Account, AccountDto>(account);
+    }
+
+    public async Task<AccountDto> UpdateAccount(AccountUpdateDto updateDto)
+    {
+        var account = _context.Accounts.FirstOrDefault(x => x.Id == updateDto.Id);
+        account.Fullname = updateDto.Fullname;
+        account.Address = updateDto.Address;
+        account.Phone = updateDto.Phone;
+        account.Email = updateDto.Email;
+
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<Account, AccountDto>(account);
+    }
+
+    public async Task<AccountDto> GetAccount(Guid id)
+    {
+        var account = _context.Accounts.FirstOrDefault(x => x.Id == id);
 
         return _mapper.Map<Account, AccountDto>(account);
     }

@@ -10,5 +10,7 @@ public class UserProfile : Profile
     {
         CreateMap<staff, UserDto>();
         CreateMap<UserCreateDto, staff>();
+        CreateMap<Customer, UserDto>();
+        CreateMap<UserCreateDto, Customer>();
     }
 }

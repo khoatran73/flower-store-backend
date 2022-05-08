@@ -50,8 +50,7 @@ public class UserController : ControllerBase
         });
     }
 
-    
-    
+
     [HttpPost(@"test-image")]
     public async Task<IActionResult> Up([FromBody] string path)
     {
@@ -64,4 +63,44 @@ public class UserController : ControllerBase
             Result = result,
         });
     }
+    
+    
+    [HttpGet(@"customer/{id:guid}")]
+    public async Task<IActionResult> GetCustomer([FromRoute] Guid id)
+    {
+        var result = await _userService.GetCustomer(id);
+
+        return Ok(new ApiResponse<UserDto>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
+    
+    [HttpPost(@"create-customer")]
+    public async Task<IActionResult> CreateCustomer([FromBody] UserCreateDto createDto)
+    {
+        await _userService.CreateCustomer(createDto);
+
+        return Ok(new ApiResponse<bool>()
+        {
+            Success = true,
+            Message = "",
+        });
+    }
+    
+    [HttpGet(@"get-customer-id")]
+    public async Task<IActionResult> GetCustomerId(Guid accountId)
+    {
+        var result = await _userService.GetCustomerId(accountId);
+
+        return Ok(new ApiResponse<Guid>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
+    
 }

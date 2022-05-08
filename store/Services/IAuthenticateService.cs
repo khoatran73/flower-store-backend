@@ -9,4 +9,6 @@ public interface IAuthenticateService
     Task<AccountDetailDto> Login(LoginDto loginDto);
     Task<List<AccountDto>> GetListAccount();
     Task<AccountDto> CreateAccount(AccountCreateDto createDto);
+    Task<AccountDto> UpdateAccount(AccountUpdateDto updateDto);
+    Task<AccountDto> GetAccount(Guid id);
 }

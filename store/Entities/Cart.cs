@@ -15,6 +15,7 @@ namespace store.Entities
         public Guid? AccountId { get; set; }
         public int? TotalQuantity { get; set; }
         public int? TotalPrice { get; set; }
+        public bool? IsDone { get; set; }
         public DateTime? CreatedAt { get; set; }
 
         public virtual Account? Account { get; set; }

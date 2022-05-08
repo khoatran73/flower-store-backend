@@ -42,4 +42,40 @@ public class UserService : IUserService
 
         return userDtos;
     }
+
+    public async Task<UserDto> GetCustomer(Guid accountId)
+    {
+        var userDto =  _context.Customers
+            .Where(x => x.Account.Id == accountId)
+            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+            .Single();
+
+        return userDto;
+    }
+
+    public Task CreateCustomer(UserCreateDto createDto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Guid> GetCustomerId(Guid accountId)
+    {
+        var customer = _context.Customers.FirstOrDefault(x => x.AccountId == accountId);
+
+        return customer.Id;
+    }
+
+    // public async Task UpdateCustomer(UserCreateDto createDto)
+    // {
+    //     var account = _context.Accounts.FirstOrDefault(x => x.Id == createDto.Account.);
+    //         // _authenticateService.CreateAccount(createDto.Account);
+    //     var customer = new Customer
+    //     {
+    //         AccountId = account.Id,
+    //         StoreId = createDto.StoreId,
+    //     };
+    //
+    //     _context.Customers.Add(customer);
+    //     await _context.SaveChangesAsync();
+    // }
 }

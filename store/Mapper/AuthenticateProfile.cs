@@ -11,6 +11,7 @@ public class AuthenticateProfile : Profile
         CreateMap<RegisterDto, Account>();
         CreateMap<LoginDto, Account>();
         CreateMap<Account, AccountDetailDto>();
+        CreateMap<AccountDetailDto, Account>();
         CreateMap<Account, AccountDto>();
         CreateMap<AccountCreateDto, Account>();
     }
