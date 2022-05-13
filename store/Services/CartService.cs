@@ -11,19 +11,21 @@ public class CartService : ICartService
 {
     private readonly IMapper _mapper;
     private readonly henrystoreContext _context;
+    private readonly IProductService _productService;
 
-    public CartService(IMapper mapper, henrystoreContext context)
+    public CartService(IMapper mapper, henrystoreContext context, IProductService productService)
     {
         _mapper = mapper;
         _context = context;
+        _productService = productService;
     }
 
     public async Task<CartDto> CreateCart(CartCreateDto createDto)
     {
-        var existCart = _context.Carts.FirstOrDefault(x => x.AccountId == createDto.AccountId && x.IsDone != true);
+        var existCart = _context.Carts.FirstOrDefault(x => x.CustomerId == createDto.AccountId && x.IsDone != true);
         if (existCart != null) return _mapper.Map<Cart, CartDto>(existCart);
-        if (createDto.Account != null && createDto.Account.Role != "customer")
-            throw new Exception("only customer can buy");
+        // if (createDto.Account != null && createDto.Account.Role != "customer")
+        //     throw new Exception("only customer can buy");
 
         var cart = _mapper.Map<CartCreateDto, Cart>(createDto);
 
@@ -34,7 +36,7 @@ public class CartService : ICartService
         return _mapper.Map<Cart, CartDto>(cart);
     }
 
-    public async Task<CartDetailDto> CreateCartDetail(CartDetailCreateDto createDto)
+    public async Task CreateCartDetail(CartDetailCreateDto createDto)
     {
         var cart = _context.Carts.FirstOrDefault(x => x.Id == createDto.CartId && x.IsDone != true);
         if (cart == null) throw new Exception("Cart null");
@@ -44,31 +46,34 @@ public class CartService : ICartService
 
         if (existCartDetail != null)
         {
-            return await UpdateQuantityCartDetail(existCartDetail, createDto.Quantity, createDto.Price);
+            await UpdateQuantityCartDetail(existCartDetail, createDto.Quantity, createDto.Price);
+            await UpdateTotalPrice(cart.Id);
+            return;
         }
 
         var cartDetail = _mapper.Map<CartDetailCreateDto, CartDetail>(createDto);
         cart.CartDetails.Add(cartDetail);
         await _context.SaveChangesAsync();
-        return _mapper.Map<CartDetail, CartDetailDto>(cartDetail);
     }
 
-    private async Task<CartDetailDto> UpdateQuantityCartDetail(CartDetail cartDetail, int? quantity, int? price)
+    private async Task UpdateQuantityCartDetail(CartDetail cartDetail, int quantity, int? price)
     {
         cartDetail.Quantity = cartDetail.Quantity + quantity;
         cartDetail.Price = price + cartDetail.Price;
 
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<CartDetail, CartDetailDto>(cartDetail);
+        // return _mapper.Map<CartDetail, CartDetailDto>(cartDetail);
     }
 
-    public async Task UpdateTotalPrice(CartDto cartDto)
+    public async Task UpdateTotalPrice(Guid cartId)
     {
-        var cart = _context.Carts.FirstOrDefault(x => x.Id == cartDto.Id && x.IsDone != true);
+        var cart = _context.Carts.Include(x => x.CartDetails)
+            .FirstOrDefault(x => x.Id == cartId && x.IsDone != true);
         if (cart == null) throw new Exception("Cart null");
-        var cartDetails = await _context.CartDetails
-            .Where(x => x.CartId == cart.Id).ToListAsync();
+
+
+        var cartDetails = cart.CartDetails;
 
         int? totalPrice = 0;
         foreach (var cartDetail in cartDetails)
@@ -85,7 +90,7 @@ public class CartService : ICartService
         if (accountId.HasValue)
         {
             var carts = await _context.Carts
-                .Where(x => x.AccountId == accountId && x.IsDone != true)
+                .Where(x => x.CustomerId == accountId && x.IsDone != true)
                 .ProjectTo<CartDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
@@ -102,23 +107,21 @@ public class CartService : ICartService
         }
     }
 
-    public async Task<CartDto> RemoveCartDetail(Guid cartId, Guid productId)
+    public async Task RemoveCartDetail(Guid cartId, Guid productId)
     {
         var cart = _context.Carts
             .Where(x => x.Id == cartId && x.IsDone != true)
             .Include(x => x.CartDetails)
             .Single();
         if (cart == null) throw new Exception("Cart null");
-
-
+        
         var cartDetail = cart.CartDetails
-            .FirstOrDefault(x => x.CartId == cartId || x.ProductId == productId);
+            .FirstOrDefault(x => x.CartId == cartId && x.ProductId == productId);
 
         if (cartDetail == null) throw new Exception("Cart Detail null");
 
         cart.CartDetails.Remove(cartDetail);
         await _context.SaveChangesAsync();
-        return _mapper.Map<Cart, CartDto>(cart);
     }
 
     public async Task RemoveCart(Guid id)
@@ -132,11 +135,28 @@ public class CartService : ICartService
 
     public async Task SetDone(Guid id)
     {
-        var cart = _context.Carts.FirstOrDefault(x => x.Id == id && x.IsDone != true);
+        var cart = _context.Carts.Include(x => x.CartDetails)
+            .FirstOrDefault(x => x.Id == id && x.IsDone != true);
+
         if (cart == null) throw new NotImplementedException();
 
+        var cartDetails = cart.CartDetails;
+        foreach (var cartDetail in cartDetails)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == cartDetail.ProductId);
+            if (product != null && (product.TotalQuantity - cartDetail.Quantity > 0))
+            {
+                product.TotalQuantity = product.TotalQuantity - cartDetail.Quantity;
+                _context.Products.Update(product);
+            }
+            else
+            {
+                throw new Exception("err");
+            }
+        }
+
         cart.IsDone = true;
-        
+
         await _context.SaveChangesAsync();
     }
 }

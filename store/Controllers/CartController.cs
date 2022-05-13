@@ -47,28 +47,26 @@ public class CartController : ControllerBase
     {
         var cartDto = await _cartService.CreateCart(cartTotalCreateDto.CartCreateDto);
         cartTotalCreateDto.CartDetailCreateDto.CartId = cartDto.Id;
-        var result = await _cartService.CreateCartDetail(cartTotalCreateDto.CartDetailCreateDto);
-        await _cartService.UpdateTotalPrice(result.Cart);
+        await _cartService.CreateCartDetail(cartTotalCreateDto.CartDetailCreateDto);
+        await _cartService.UpdateTotalPrice(cartDto.Id);
 
-        return Ok(new ApiResponse<CartDetailDto>()
+        return Ok(new ApiResponse<bool>()
         {
             Success = true,
             Message = "",
-            Result = result
         });
     }
 
     [HttpDelete(@"remove-cart-detail")]
     public async Task<IActionResult> RemoveCartDetail(Guid cartId, Guid productId)
     {
-        var result = await _cartService.RemoveCartDetail(cartId, productId);
-        await _cartService.UpdateTotalPrice(result);
+        await _cartService.RemoveCartDetail(cartId, productId);
+        await _cartService.UpdateTotalPrice(cartId);
 
         return Ok(new ApiResponse<CartDto>()
         {
             Success = true,
             Message = "",
-            Result = result
         });
     }
 }

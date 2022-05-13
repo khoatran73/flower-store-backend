@@ -24,7 +24,6 @@ public class UserService : IUserService
         var account = await _authenticateService.CreateAccount(createDto.Account);
         var staff = new staff
         {
-            AccountId = account.Id,
             StoreId = createDto.StoreId,
         };
 
@@ -35,8 +34,8 @@ public class UserService : IUserService
     public async Task<List<UserDto>> ListStaff()
     {
         var userDtos = await _context.staff
-            .Where(x => x.Account.Role != "customer")
-            .Select(x => x)
+            // .Where(x => x.Role != "customer")
+            .OrderBy(x => x.StoreId)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
@@ -46,7 +45,7 @@ public class UserService : IUserService
     public async Task<UserDto> GetCustomer(Guid accountId)
     {
         var userDto =  _context.Customers
-            .Where(x => x.Account.Id == accountId)
+            .Where(x => x.Id == accountId)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .Single();
 
@@ -60,7 +59,7 @@ public class UserService : IUserService
 
     public async Task<Guid> GetCustomerId(Guid accountId)
     {
-        var customer = _context.Customers.FirstOrDefault(x => x.AccountId == accountId);
+        var customer = _context.Customers.FirstOrDefault(x => x.Id == accountId);
 
         return customer.Id;
     }
@@ -68,7 +67,7 @@ public class UserService : IUserService
     public async Task<List<UserDto>> ListCustomer()
     {
         return  await _context.Customers
-            .Where(x => x.Account != null && x.Account.Role == "customer")
+            // .Where(x => x.Role == "customer")
             .Select(x => x)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .ToListAsync();

@@ -27,97 +27,108 @@ public class AuthenticateService : IAuthenticateService
     public async Task<bool> Register(RegisterDto registerDto)
     {
         var validate = await _validator.ValidateAsync(registerDto);
-        var existAccount = _context.Accounts.FirstOrDefault(x => x.Username == registerDto.Username);
+        var existAccount = _context.Customers.FirstOrDefault(x => x.Username == registerDto.Username);
 
         if (!validate.IsValid || registerDto.Password != registerDto.ConfirmPassword || existAccount != null)
             return false;
 
         var salt = CreateSalt(SizeSalt);
         var passwordHash = CreateHashSha256(registerDto.Password, salt);
-        var account = new Account()
+        var customer = new Customer()
         {
             Username = registerDto.Username,
             Salt = salt,
             PasswordHash = passwordHash,
             Role = "customer",
         };
-        _context.Accounts.Add(account);
-        await _context.SaveChangesAsync();
-        
-        _context.Customers.Add(new Customer()
-        {
-            AccountId = account.Id,
-        });
+        _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
         return true;
 
     }
-    public async Task<List<AccountDto>> GetListAccount()
-    {
-        var accountDtos = await _context.Accounts
-            .Select(x => x)
-            .Where(x => x.Role != "customer")
-            .ProjectTo<AccountDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-        
-        return accountDtos;
-    }
+    // public async Task<List<AccountDto>> GetListAccount()
+    // {
+    //     var accountDtos = await _context.Accounts
+    //         .Select(x => x)
+    //         .Where(x => x.Role != "customer")
+    //         .ProjectTo<AccountDto>(_mapper.ConfigurationProvider)
+    //         .ToListAsync();
+    //     
+    //     return accountDtos;
+    // }
 
     [Obsolete("Obsolete")]
     public async Task<AccountDto> CreateAccount(AccountCreateDto createDto)
     {
         // var validate = await _validator.ValidateAsync(createDto);
-        var existAccount = _context.Accounts.FirstOrDefault(x => x.Username == createDto.Username);
-
+        var existAccount = _context.staff.FirstOrDefault(x => x.Username == createDto.Username);
+    
         if (createDto.Password != createDto.ConfirmPassword || existAccount != null)
             throw new Exception("Error");
         
         
         var salt = CreateSalt(SizeSalt);
         var passwordHash = CreateHashSha256(createDto.Password, salt);
-
-        var account = _mapper.Map<AccountCreateDto, Account>(createDto);
-        account.Salt = salt;
-        account.PasswordHash = passwordHash;
-
-        _context.Accounts.Add(account);
+    
+        var staff = _mapper.Map<AccountCreateDto, staff>(createDto);
+        staff.Salt = salt;
+        staff.PasswordHash = passwordHash;
+    
+        _context.staff.Add(staff);
         await _context.SaveChangesAsync();
-
-        return _mapper.Map<Account, AccountDto>(account);
+    
+        return _mapper.Map<staff, AccountDto>(staff);
     }
 
-    public async Task<AccountDto> UpdateAccount(AccountUpdateDto updateDto)
+    public async Task UpdateAccount(AccountUpdateDto updateDto)
     {
-        var account = _context.Accounts.FirstOrDefault(x => x.Id == updateDto.Id);
-        account.Fullname = updateDto.Fullname;
-        account.Address = updateDto.Address;
-        account.Phone = updateDto.Phone;
-        account.Email = updateDto.Email;
+        var customer = _context.Customers.FirstOrDefault(x => x.Id == updateDto.Id);
+        customer.Fullname = updateDto.Fullname;
+        customer.Address = updateDto.Address;
+        customer.Phone = updateDto.Phone;
+        customer.Email = updateDto.Email;
 
         await _context.SaveChangesAsync();
-
-        return _mapper.Map<Account, AccountDto>(account);
     }
 
     public async Task<AccountDto> GetAccount(Guid id)
     {
-        var account = _context.Accounts.FirstOrDefault(x => x.Id == id);
+        var customer = _context.Customers.FirstOrDefault(x => x.Id == id);
 
-        return _mapper.Map<Account, AccountDto>(account);
+        if (customer != null)
+        {
+            return _mapper.Map<Customer, AccountDto>(customer);
+            
+        }
+
+        var staff = _context.staff.FirstOrDefault(x => x.Id == id);
+
+        if (staff != null)
+        {
+            return _mapper.Map<staff, AccountDto>(staff);
+
+        }
+
+        throw new Exception("no account");
     }
 
     [Obsolete("Obsolete")]
     public async Task<AccountDetailDto> Login(LoginDto loginDto)
     {
-        var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-        if (account == null) throw new Exception("Username sai");
+        var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        var staff = await _context.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        if (customer == null && staff == null) throw new Exception("Username sai");
 
-        var hash = CreateHashSha256(loginDto.Password, account.Salt);
+        // var hash = ;
 
-        if (hash == account.PasswordHash)
+        if (customer != null && CreateHashSha256(loginDto.Password, customer.Salt) == customer.PasswordHash)
         {
-            return _mapper.Map<Account, AccountDetailDto>(account);
+            return _mapper.Map<Customer, AccountDetailDto>(customer);
+        } 
+        if (staff != null &&  CreateHashSha256(loginDto.Password, staff.Salt) == staff.PasswordHash)
+        {
+            return _mapper.Map<staff, AccountDetailDto>(staff);
         }
 
         throw new Exception("Sai mk");

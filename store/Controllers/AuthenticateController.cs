@@ -21,17 +21,17 @@ public class AuthenticateController : ControllerBase
         _fileService = fileService;
     }
     
-    [HttpGet(@"list-account")]
-    public async Task<IActionResult> GetListAccount()
-    {
-        var result = await _authenticateService.GetListAccount();
-        return Ok(new ApiResponse<List<AccountDto>>()
-        {
-            Success = true,
-            Message = "",
-            Result = result
-        });
-    }
+    // [HttpGet(@"list-account")]
+    // public async Task<IActionResult> GetListAccount()
+    // {
+    //     var result = await _authenticateService.GetListAccount();
+    //     return Ok(new ApiResponse<List<AccountDto>>()
+    //     {
+    //         Success = true,
+    //         Message = "",
+    //         Result = result
+    //     });
+    // }
     
     [HttpGet(@"{id:guid}")]
     public async Task<IActionResult> GetAccount([FromRoute] Guid id)
@@ -76,13 +76,12 @@ public class AuthenticateController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Update(AccountUpdateDto updateDto)
     {
-        var result = await _authenticateService.UpdateAccount(updateDto);
+        await _authenticateService.UpdateAccount(updateDto);
 
         return Ok(new ApiResponse<AccountDto>()
         {
             Success = true,
             Message = "",
-            Result = result,
         });
     }
     

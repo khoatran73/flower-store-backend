@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace store.Entities
 {
@@ -13,7 +16,6 @@ namespace store.Entities
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<CartDetail> CartDetails { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
@@ -36,9 +38,97 @@ namespace store.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>(entity =>
+            modelBuilder.Entity<Cart>(entity =>
             {
-                entity.ToTable("account");
+                entity.ToTable("cart");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createdAt")
+                    .HasDefaultValueSql("(getdate())");
+                
+                entity.Property(e => e.IsDone).HasColumnName("isDone");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
+
+                entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
+
+                entity.Property(e => e.TotalQuantity).HasColumnName("totalQuantity");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_cart_customer");
+            });
+
+            modelBuilder.Entity<CartDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.CartId, e.ProductId })
+                    .HasName("PK__cartDeta__F38A0EAEB9D6F345");
+
+                entity.ToTable("cartDetail");
+
+                entity.Property(e => e.CartId).HasColumnName("cartId");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.Property(e => e.Price).HasColumnName("price");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Total).HasColumnName("total");
+
+                entity.HasOne(d => d.Cart)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.CartId)
+                    .HasConstraintName("fk_cartDetail_cart");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.CartDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("fk_cartDetail_product");
+            });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.ToTable("comment");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Content).HasColumnName("content");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createdAt")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_comment_customer");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fk_comment_product");
+            });
+
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.ToTable("customer");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -91,145 +181,35 @@ namespace store.Entities
                     .IsUnicode(false)
                     .HasColumnName("salt");
 
+                entity.Property(e => e.StoreId).HasColumnName("storeId");
+
                 entity.Property(e => e.Username)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("username");
-
-                entity.HasMany(d => d.CommentsNavigation)
-                    .WithMany(p => p.Accounts)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "Reaction",
-                        l => l.HasOne<Comment>().WithMany().HasForeignKey("CommentId").HasConstraintName("fk_reaction_comment"),
-                        r => r.HasOne<Account>().WithMany().HasForeignKey("AccountId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("fk_reaction_account"),
-                        j =>
-                        {
-                            j.HasKey("AccountId", "CommentId").HasName("PK__reaction__3EBACC07293CCCB3");
-
-                            j.ToTable("reaction");
-
-                            j.IndexerProperty<Guid>("AccountId").HasColumnName("accountId");
-
-                            j.IndexerProperty<Guid>("CommentId").HasColumnName("commentId");
-                        });
-            });
-
-            modelBuilder.Entity<Cart>(entity =>
-            {
-                entity.ToTable("cart");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createdAt")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
-                
-                entity.Property(e => e.IsDone).HasColumnName("isDone");
-
-                entity.Property(e => e.TotalQuantity).HasColumnName("totalQuantity");
-
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Carts)
-                    .HasForeignKey(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_cart_account");
-            });
-
-            modelBuilder.Entity<CartDetail>(entity =>
-            {
-                entity.HasKey(e => new { e.CartId, e.ProductId })
-                    .HasName("PK__cartDeta__F38A0EAE84626B74");
-
-                entity.ToTable("cartDetail");
-
-                entity.Property(e => e.CartId).HasColumnName("cartId");
-
-                entity.Property(e => e.ProductId).HasColumnName("productId");
-
-                entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.Quantity).HasColumnName("quantity");
-
-                entity.Property(e => e.Total).HasColumnName("total");
-
-                entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartDetails)
-                    .HasForeignKey(d => d.CartId)
-                    .HasConstraintName("fk_cartDetail_cart");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.CartDetails)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("fk_cartDetail_product");
-            });
-
-            modelBuilder.Entity<Comment>(entity =>
-            {
-                entity.ToTable("comment");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
-
-                entity.Property(e => e.Content).HasColumnName("content");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createdAt")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ProductId).HasColumnName("productId");
-
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_comment_account");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_comment_product");
-            });
-
-            modelBuilder.Entity<Customer>(entity =>
-            {
-                entity.ToTable("customer");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("createdAt")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.StoreId).HasColumnName("storeId");
-
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.Customers)
-                    .HasForeignKey(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_customer_account");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Customers)
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_customer_store");
+
+                entity.HasMany(d => d.CommentsNavigation)
+                    .WithMany(p => p.Customers)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "Reaction",
+                        l => l.HasOne<Comment>().WithMany().HasForeignKey("CommentId").HasConstraintName("fk_reaction_comment"),
+                        r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("fk_reaction_customer"),
+                        j =>
+                        {
+                            j.HasKey("CustomerId", "CommentId").HasName("PK__reaction__7ACC22649347875D");
+
+                            j.ToTable("reaction");
+
+                            j.IndexerProperty<Guid>("CustomerId").HasColumnName("customerId");
+
+                            j.IndexerProperty<Guid>("CommentId").HasColumnName("commentId");
+                        });
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -331,9 +311,11 @@ namespace store.Entities
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
 
+                entity.Property(e => e.Code)
+                    .IsUnicode(false)
+                    .HasColumnName("code");
+
                 entity.Property(e => e.Name).HasColumnName("name");
-                
-                entity.Property(e => e.Code).HasColumnName("code");
             });
 
             modelBuilder.Entity<ProductInStore>(entity =>
@@ -371,7 +353,7 @@ namespace store.Entities
                 entity.Property(e => e.Address).HasColumnName("address");
 
                 entity.Property(e => e.Contact).HasColumnName("contact");
-                
+
                 entity.Property(e => e.Name).HasColumnName("name");
             });
 
@@ -381,20 +363,59 @@ namespace store.Entities
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.AccountId).HasColumnName("accountId");
+                entity.Property(e => e.Address).HasColumnName("address");
+
+                entity.Property(e => e.Birthday)
+                    .HasColumnType("datetime")
+                    .HasColumnName("birthday");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createdAt")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.Email)
+                    .IsUnicode(false)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Fullname).HasColumnName("fullname");
+
+                entity.Property(e => e.Gender)
+                    .HasColumnName("gender")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Image)
+                    .IsUnicode(false)
+                    .HasColumnName("image");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("isActive")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.PasswordHash)
+                    .IsUnicode(false)
+                    .HasColumnName("passwordHash");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(11)
+                    .IsUnicode(false)
+                    .HasColumnName("phone");
+
+                entity.Property(e => e.Role)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("role");
+
+                entity.Property(e => e.Salt)
+                    .IsUnicode(false)
+                    .HasColumnName("salt");
+
                 entity.Property(e => e.StoreId).HasColumnName("storeId");
 
-                entity.HasOne(d => d.Account)
-                    .WithMany(p => p.staff)
-                    .HasForeignKey(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_staff_account");
+                entity.Property(e => e.Username)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.staff)

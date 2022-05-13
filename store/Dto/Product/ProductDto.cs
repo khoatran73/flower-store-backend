@@ -10,4 +10,6 @@ public class ProductDto
     public int? TotalQuantity { get; set; }
     public string? Description { get; set; }
     public CategoryDto? Category { get; set; }
+    
+    public int? CountSold { get; set; }
 }

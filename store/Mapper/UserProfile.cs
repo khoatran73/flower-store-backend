@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using store.Dto.Authenticate;
 using store.Dto.User;
 using store.Entities;
 
@@ -12,5 +13,13 @@ public class UserProfile : Profile
         CreateMap<UserCreateDto, staff>();
         CreateMap<Customer, UserDto>();
         CreateMap<UserCreateDto, Customer>();
+
+        CreateMap<RegisterDto, Customer>();
+        CreateMap<Customer, AccountDto>();
+        CreateMap<staff, AccountDto>();
+        CreateMap<Customer, AccountDetailDto>();
+        CreateMap<staff, AccountDetailDto>();
+
+        CreateMap<AccountCreateDto, staff>();
     }
 }

@@ -19,7 +19,7 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddEndpointsApiExplorer();
-        services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson();
         services.AddService();
         services.AddScoped<IValidator<RegisterDto>, ValidateRegisterDto>();
         

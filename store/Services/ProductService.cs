@@ -23,10 +23,19 @@ public class ProductService : IProductService
         if (categoryId != null && id != null)
         {
             return await _context.Products
+                .Where(x => x.TotalQuantity > 0)
                 .Where(x => x.CategoryId == categoryId)
                 .Where(x => x.Id != id)
                 .OrderByDescending(x => x.CreatedAt)
                 .Take(LimitRelatedProduct)
+                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        } else if (categoryId != null)
+        {
+            return await _context.Products
+                .Where(x => x.TotalQuantity > 0)
+                .Where(x => x.CategoryId == categoryId)
+                .OrderByDescending(x => x.CreatedAt)
                 .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -41,11 +50,25 @@ public class ProductService : IProductService
     {
         var product = await _context.Products
             .Include(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id && x.TotalQuantity > 0);
 
         if (product == null) throw new Exception("Not found");
 
-        return _mapper.Map<Product, ProductDto>(product);
+        var cartDetails = _context.CartDetails.Include(x => x.Cart).ToList();
+
+        var numberSold = 0;
+        foreach (var cartDetail in cartDetails)
+        {
+            if (product.Id == cartDetail.ProductId && cartDetail.Cart.IsDone == true )
+            {
+                numberSold = numberSold + cartDetail.Quantity;
+            }
+        }
+
+        var productDto = _mapper.Map<Product, ProductDto>(product);
+        productDto.CountSold = numberSold;
+
+        return productDto;
     }
 
 
@@ -79,6 +102,22 @@ public class ProductService : IProductService
 
         await _context.SaveChangesAsync();
         return _mapper.Map<Product, ProductDto>(product);
+    }
+
+    public async Task UpdateQuantity(Guid id, int quantity)
+    {
+        var product = _context.Products.FirstOrDefault(x => x.Id == id);
+
+        if (product?.TotalQuantity < quantity) throw new Exception("Khoong dur so luong");
+
+        if (product != null)
+        {
+            product.TotalQuantity = product.TotalQuantity - quantity;
+
+            _context.Products.Update(product);
+        }
+
+        await _context.SaveChangesAsync();
     }
 
     public async Task Delete(Guid id)

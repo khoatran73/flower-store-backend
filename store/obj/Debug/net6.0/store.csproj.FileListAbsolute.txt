@@ -189,3 +189,6 @@ E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\Fl
 E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
 E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\CloudinaryDotNet.dll
 E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\Newtonsoft.Json.dll
+E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

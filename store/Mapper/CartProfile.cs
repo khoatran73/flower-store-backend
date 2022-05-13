@@ -9,10 +9,10 @@ public class CartProfile : Profile
     public CartProfile()
     {
         CreateMap<CartCreateDto, Cart>()
-            .ForMember(x => x.Account, opt => 
-                opt.Ignore());
+            .ForMember(x => x.CustomerId, opt =>
+                opt.MapFrom(x => x.AccountId));
         CreateMap<CartDetailCreateDto, CartDetail>();
-        CreateMap<Cart, CartDto>();
+        CreateMap<Cart, CartDto>().ForMember(x => x.AccountId, opt => opt.MapFrom(x => x.CustomerId));
         CreateMap<CartDetail, CartDetailDto>();
     }
 }

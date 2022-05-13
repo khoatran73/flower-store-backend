@@ -35,13 +35,12 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto createDto)
     {
         await _cartService.SetDone(createDto.CartId);
-        var result = await _orderService.CreateOrder(createDto);
+        await _orderService.CreateOrder(createDto);
         
         return Ok(new ApiResponse<OrderDto>()
         {
             Success = true,
             Message = "",
-            Result = result,
         });
     }
     

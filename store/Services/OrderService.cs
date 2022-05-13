@@ -25,14 +25,12 @@ public class OrderService : IOrderService
             .ToListAsync();
     }
 
-    public async Task<OrderDto> CreateOrder(OrderCreateDto createDto)
+    public async Task CreateOrder(OrderCreateDto createDto)
     {
         var order = _mapper.Map<OrderCreateDto, Order>(createDto);
 
         _context.Orders.Add(order);
 
         await _context.SaveChangesAsync();
-
-        return _mapper.Map<Order, OrderDto>(order);
     }
 }
