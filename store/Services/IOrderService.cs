@@ -4,6 +4,6 @@ namespace store.Services;
 
 public interface IOrderService
 {
-    Task<List<OrderDto>> Index();
-    Task CreateOrder(OrderCreateDto createDto);
+    Task<List<OrderDto>> Index(Guid? storeId);
+    Task CreateOrder(OrderCreateDto createDto, Guid? storeId);
 }

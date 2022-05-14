@@ -6,19 +6,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e08500c5-0b1b-4039-9e13-84655a600c80" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/store/ConnectionTools.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/Controllers/ConnectController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/Entities/Store1DbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/SwapConnectionString.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/Dto/Authenticate/ImageUpdateDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.henrystore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.henrystore/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Controllers/AuthenticateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/AuthenticateController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/OrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Controllers/StoreController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/StoreController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDetailtDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDetailtDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Dto/Authenticate/AccountUpdateDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Authenticate/CustomerUpdateDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Mapper/UserProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Mapper/UserProfile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/AuthenticateService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/AuthenticateService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/IAuthenticateService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IAuthenticateService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/IOrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IOrderService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/IProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/IStoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IStoreService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/OrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/OrderService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/ProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/ProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/StoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/StoreService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/ref/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/ref/store.dll" afterDir="false" />
@@ -26,7 +33,6 @@
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/staticwebassets.pack.sentinel" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +43,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18f9aab6fabc434588b218664646ce70200ba8/20/de82d5db/DbSet`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18f9aab6fabc434588b218664646ce70200ba8/3f/696c701c/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4b8d190a74c54b82b4eebd13128da9cf31a80/20/5e40230f/IActionResult.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5956701c92ec47bc98145555cd08eafca23890/10/1af76e58/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/856e54acf6c14ccab643c3b63483564b4ca00/91/7ca5f462/ImageUploadParams.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/856e54acf6c14ccab643c3b63483564b4ca00/9c/b0942c89/RawUploadParams.cs" root0="SKIP_HIGHLIGHTING" />
@@ -145,6 +152,8 @@
       <workItem from="1652363264429" duration="389000" />
       <workItem from="1652447432475" duration="13474000" />
       <workItem from="1652488416780" duration="1811000" />
+      <workItem from="1652497411370" duration="77000" />
+      <workItem from="1652509213708" duration="9625000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1650989643975</created>
@@ -189,19 +198,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/store/Controllers/OrderController.cs</url>
-          <line>36</line>
-          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Controllers\OrderController.cs" initialLine="36" containingFunctionPresentation="method 'CreateOrder'">
-            <startOffsets>
-              <option value="901" />
-            </startOffsets>
-            <endOffsets>
-              <option value="946" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/store/Services/CartService.cs</url>
           <line>137</line>
           <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Services\CartService.cs" initialLine="137" containingFunctionPresentation="method 'SetDone'">
@@ -215,32 +211,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/store/Services/OrderService.cs</url>
-          <line>29</line>
-          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Services\OrderService.cs" initialLine="29" containingFunctionPresentation="method 'CreateOrder'">
-            <startOffsets>
-              <option value="743" />
-            </startOffsets>
-            <endOffsets>
-              <option value="801" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/store/SwapConnectionString.cs</url>
-          <line>10</line>
-          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\SwapConnectionString.cs" initialLine="10" containingFunctionPresentation="method 'SwapDB'">
-            <startOffsets>
-              <option value="304" />
-            </startOffsets>
-            <endOffsets>
-              <option value="305" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

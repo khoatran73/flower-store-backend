@@ -17,9 +17,9 @@ public class StoreController : ControllerBase
     }
 
     [HttpGet(@"")]
-    public async Task<IActionResult> ListStore()
+    public async Task<IActionResult> ListStore([FromQuery] Guid? storeId)
     {
-        var result = await _storeService.ListStore();
+        var result = await _storeService.ListStore(storeId);
 
         return Ok(new ApiResponse<List<StoreDto>>()
         {

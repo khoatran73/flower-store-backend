@@ -19,9 +19,9 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet(@"")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] Guid? storeId)
     {
-        var result = await _orderService.Index();
+        var result = await _orderService.Index(storeId);
         
         return Ok(new ApiResponse<List<OrderDto>>()
         {
@@ -32,10 +32,10 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost(@"create")]
-    public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto createDto)
+    public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto createDto, [FromQuery] Guid? storeId)
     {
         await _cartService.SetDone(createDto.CartId);
-        await _orderService.CreateOrder(createDto);
+        await _orderService.CreateOrder(createDto, storeId);
         
         return Ok(new ApiResponse<OrderDto>()
         {

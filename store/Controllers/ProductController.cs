@@ -21,9 +21,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet(@"")]
-    public async Task<IActionResult> Index([FromQuery] Guid? id, Guid? categoryId)
+    public async Task<IActionResult> Index([FromQuery] Guid? id, Guid? categoryId, Guid? storeId)
     {
-        var result = await _productService.GetList(id, categoryId);
+        var result = await _productService.GetList(id, categoryId, storeId);
         return Ok(new ApiResponse<List<ProductDto>>()
         {
             Success = true,

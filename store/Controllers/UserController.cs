@@ -1,6 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using store.Api;
+using store.Dto.Authenticate;
 using store.Dto.User;
 using store.Services;
 
@@ -54,9 +55,9 @@ public class UserController : ControllerBase
     }
     
     [HttpGet(@"list-customer")]
-    public async Task<IActionResult> ListCustomer()
+    public async Task<IActionResult> ListCustomer([FromQuery] Guid? storeId)
     {
-        var result = await _userService.ListCustomer();
+        var result = await _userService.ListCustomer(storeId);
 
         return Ok(new ApiResponse<List<UserDto>>()
         {
@@ -67,16 +68,15 @@ public class UserController : ControllerBase
     }
 
 
-    [HttpPost(@"test-image")]
-    public async Task<IActionResult> Up([FromBody] string path)
+    [HttpPost(@"update-customer/{id:guid}")]
+    public async Task<IActionResult> UpdateCustomer([FromBody] CustomerUpdateDto updateDto, Guid id)
     {
-        var result = await _cloudinaryService.UploadImage(path, "Flower-store");
+        await _userService.UpdateCustomer(updateDto, id);
 
-        return Ok(new ApiResponse<ImageUploadResult>()
+        return Ok(new ApiResponse<bool>()
         {
             Success = true,
             Message = "",
-            Result = result,
         });
     }
     
@@ -116,6 +116,21 @@ public class UserController : ControllerBase
             Success = true,
             Message = "",
             Result = result,
+        });
+    }
+    
+    [HttpPost(@"update-image/{id:guid}")]
+    public async Task<IActionResult> UpdateCustomerImage([FromForm] ImageUpdateDto updateDto, [FromRoute] Guid? id)
+    {
+        var filePath = await _fileService.UploadFile(updateDto.File, "Uploads/customer");
+        var imageUploadResult = await _cloudinaryService.UploadImage(filePath, "Flower-store");
+        var image = imageUploadResult.Url.ToString();
+        await _userService.UpdateCustomerImage(image, id);
+
+        return Ok(new ApiResponse<bool>()
+        {
+            Success = true,
+            Message = "",
         });
     }
     

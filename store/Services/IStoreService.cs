@@ -4,5 +4,5 @@ namespace store.Services;
 
 public interface IStoreService
 {
-    Task<List<StoreDto>> ListStore();
+    Task<List<StoreDto>> ListStore(Guid? storeId);
 }

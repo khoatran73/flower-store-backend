@@ -62,7 +62,9 @@ public class AuthenticateService : IAuthenticateService
     public async Task<AccountDto> CreateAccount(AccountCreateDto createDto, Guid? storeId)
     {
         // var validate = await _validator.ValidateAsync(createDto);
-        var existAccount = _context.staff.FirstOrDefault(x => x.Username == createDto.Username);
+        var db = SwapConnectionString.SwapDB(storeId);
+        
+        var existAccount = db.staff.FirstOrDefault(x => x.Username == createDto.Username);
     
         if (createDto.Password != createDto.ConfirmPassword || existAccount != null)
             throw new Exception("Error");
@@ -76,22 +78,22 @@ public class AuthenticateService : IAuthenticateService
         staff.PasswordHash = passwordHash;
         staff.StoreId = storeId;
         
-        _context.staff.Add(staff);
-        await _context.SaveChangesAsync();
+        db.staff.Add(staff);
+        await db.SaveChangesAsync();
     
         return _mapper.Map<staff, AccountDto>(staff);
     }
 
-    public async Task UpdateAccount(AccountUpdateDto updateDto)
-    {
-        var customer = _context.Customers.FirstOrDefault(x => x.Id == updateDto.Id);
-        customer.Fullname = updateDto.Fullname;
-        customer.Address = updateDto.Address;
-        customer.Phone = updateDto.Phone;
-        customer.Email = updateDto.Email;
-
-        await _context.SaveChangesAsync();
-    }
+    // public async Task UpdateAccount(CustomerUpdateDto updateDto)
+    // {
+    //     var customer = _context.Customers.FirstOrDefault(x => x.Id == updateDto.Id);
+    //     customer.Fullname = updateDto.Fullname;
+    //     customer.Address = updateDto.Address;
+    //     customer.Phone = updateDto.Phone;
+    //     customer.Email = updateDto.Email;
+    //
+    //     await _context.SaveChangesAsync();
+    // }
 
     public async Task<AccountDto> GetAccount(Guid id)
     {
@@ -115,49 +117,22 @@ public class AuthenticateService : IAuthenticateService
     }
 
     [Obsolete("Obsolete")]
-    public async Task<AccountDetailDto> Login(LoginDto loginDto, Guid? storeId)
+    public async Task<AccountDetailDto> Login(LoginDto loginDto)
     {
-        // var context = _context;
-        if (string.Equals(storeId.ToString(), "AEABAAAD-9B84-4E09-BCC2-1FF599F3B760", StringComparison.CurrentCultureIgnoreCase))
+        var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        var staff = await _context.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        if (customer == null && staff == null) throw new Exception("Username sai");
+
+        if (customer != null && CreateHashSha256(loginDto.Password, customer.Salt) == customer.PasswordHash)
         {
-            var selectedDb = new henrystoreContext();
-            
-            selectedDb.ChangeDatabase
-            (
-               "Data Source=KHOA-PRO\\TRAM1;Initial Catalog=henrystore;User ID=sa;Password=123456"
-            );
-            
-            var customer = await selectedDb.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-            var staff = await selectedDb.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-            if (customer == null && staff == null) throw new Exception("Username sai");
-
-            // var hash = ;
-
-            if (customer != null && CreateHashSha256(loginDto.Password, customer.Salt) == customer.PasswordHash)
-            {
-                return _mapper.Map<Customer, AccountDetailDto>(customer);
-            } 
-            if (staff != null &&  CreateHashSha256(loginDto.Password, staff.Salt) == staff.PasswordHash)
-            {
-                return _mapper.Map<staff, AccountDetailDto>(staff);
-            }
-        }
-        
-        var cus = await _context.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-        var sta = await _context.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-        if (cus == null && sta == null) throw new Exception("Username sai");
-
-        // var hash = ;
-
-        if (cus != null && CreateHashSha256(loginDto.Password, cus.Salt) == cus.PasswordHash)
-        {
-            return _mapper.Map<Customer, AccountDetailDto>(cus);
+            return _mapper.Map<Customer, AccountDetailDto>(customer);
         } 
-        if (sta != null &&  CreateHashSha256(loginDto.Password, sta.Salt) == sta.PasswordHash)
+        if (staff != null &&  CreateHashSha256(loginDto.Password, staff.Salt) == staff.PasswordHash)
         {
-            return _mapper.Map<staff, AccountDetailDto>(sta);
+            return _mapper.Map<staff, AccountDetailDto>(staff);
         }
-        throw new Exception("Sai mk");
+
+        throw new NotImplementedException();
     }
 
 

@@ -60,9 +60,9 @@ public class AuthenticateController : ControllerBase
     
     [HttpPost(@"login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginDto, Guid? storeId)
+    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        var result = await _authenticateService.Login(loginDto, storeId);
+        var result = await _authenticateService.Login(loginDto);
 
         return Ok(new ApiResponse<AccountDetailDto>()
         {
@@ -72,18 +72,18 @@ public class AuthenticateController : ControllerBase
         });
     }
     
-    [HttpPost(@"update-account")]
-    [AllowAnonymous]
-    public async Task<IActionResult> Update(AccountUpdateDto updateDto)
-    {
-        await _authenticateService.UpdateAccount(updateDto);
-
-        return Ok(new ApiResponse<AccountDto>()
-        {
-            Success = true,
-            Message = "",
-        });
-    }
+    // [HttpPost(@"update-account")]
+    // [AllowAnonymous]
+    // public async Task<IActionResult> Update(CustomerUpdateDto updateDto)
+    // {
+    //     await _authenticateService.UpdateAccount(updateDto);
+    //
+    //     return Ok(new ApiResponse<AccountDto>()
+    //     {
+    //         Success = true,
+    //         Message = "",
+    //     });
+    // }
     
     // [HttpPost(@"create-account")]
     // [AllowAnonymous]

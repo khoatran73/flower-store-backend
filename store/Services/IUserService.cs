@@ -1,4 +1,5 @@
-﻿using store.Dto.User;
+﻿using store.Dto.Authenticate;
+using store.Dto.User;
 
 namespace store.Services;
 
@@ -8,5 +9,8 @@ public interface IUserService
     Task<UserDto> GetCustomer(Guid accountId);
     Task CreateCustomer(UserCreateDto createDto);
     Task<Guid> GetCustomerId(Guid accountId);
-    Task<List<UserDto>> ListCustomer();
+    Task<List<UserDto>> ListCustomer(Guid? storeId);
+    Task UpdateCustomer(CustomerUpdateDto updateDto, Guid id);
+
+    Task UpdateCustomerImage(string image, Guid? id);
 }

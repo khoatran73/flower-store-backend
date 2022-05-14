@@ -17,9 +17,10 @@ public class StoreService : IStoreService
         _context = context;
     }
 
-    public async Task<List<StoreDto>> ListStore()
+    public async Task<List<StoreDto>> ListStore(Guid? storeId)
     {
-        var storeDtos = await _context.Stores
+        var db = SwapConnectionString.SwapDB(storeId);
+        var storeDtos = await db.Stores
             .Select(x => x)
             .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .ToListAsync();

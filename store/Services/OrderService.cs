@@ -17,15 +17,16 @@ public class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<List<OrderDto>> Index()
+    public async Task<List<OrderDto>> Index(Guid? storeId)
     {
-        return await _context.Orders
+        var db = SwapConnectionString.SwapDB(storeId);
+        return await db.Orders
             .OrderByDescending(x => x.CreatedAt)
             .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
 
-    public async Task CreateOrder(OrderCreateDto createDto)
+    public async Task CreateOrder(OrderCreateDto createDto, Guid? storeId)
     {
         var order = _mapper.Map<OrderCreateDto, Order>(createDto);
 
