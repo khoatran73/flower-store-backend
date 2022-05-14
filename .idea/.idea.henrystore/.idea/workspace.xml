@@ -6,55 +6,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e08500c5-0b1b-4039-9e13-84655a600c80" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/store/ConnectionTools.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/Controllers/ConnectController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/Entities/Store1DbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/SwapConnectionString.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.henrystore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.henrystore/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Controllers/AuthenticateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/AuthenticateController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Controllers/CartController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/CartController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/OrderController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Dto/Cart/CartCreateDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Cart/CartCreateDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Dto/Cart/CartDetailCreateDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Cart/CartDetailCreateDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Dto/Product/ProductDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Product/ProductDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Dto/User/UserDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/User/UserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/Account.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/Cart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/Cart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/CartDetail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/CartDetail.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/Comment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/Comment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/Customer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/Customer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/henrystoreContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/henrystoreContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Entities/staff.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Entities/staff.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Mapper/AuthenticateProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Mapper/AuthenticateProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Mapper/CartProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Mapper/CartProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Mapper/UserProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Mapper/UserProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Dto/Authenticate/AccountDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/AuthenticateService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/AuthenticateService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/CartService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/CartService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/IAuthenticateService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IAuthenticateService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/ICartService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/ICartService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/IOrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IOrderService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/IProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IProductService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/OrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/OrderService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/Services/ProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/ProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/IUserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Services/UserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/store/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/Newtonsoft.Json.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/Newtonsoft.Json.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.exe" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/store/bin/Debug/net6.0/store.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/ref/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/ref/store.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/refint/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/refint/store.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.dll" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/Debug/net6.0/store.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/staticwebassets.pack.sentinel" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/obj/store.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/store/obj/store.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/store.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/store/store.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,8 +42,15 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/856e54acf6c14ccab643c3b63483564b4ca00/9c/b0942c89/RawUploadParams.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fa7453c9ff19472b956dd2118702eecbe698/2b/14c7bd92/IFormFile.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea95343b9387b73062a9b61b7538f826c54ce3529632b4472ba4494044d23/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/526ae08c38c8abe14c81f688f3b9bc8b471aeac46b5ea30bdeefec56ce6cc7/DbContextOptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5330988bfaacf93f15e30f9b3dd6018a768f89da3b38d874fda77299c62164/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/595a578380fad7a0c4ade2cb256e4ff7233d9368473f9d35a898197d7762a0/DbContextOptions`.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68355226a771c1dbd8df2691a3d41d3a7a61fef8643efd9444785dabfa4f/IDbContextOptionsExtension.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6b6a76f3e1e1fe75a6fa9113ed5d746f8474b721b4ceadc24885043dc693c/StartupLoader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/813d32483b4697adf6fbbc7ba3a17b76889de94eae2f2cac71aae35559da2c/IValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9d4f4ac7db6d2c5d183ab2d92602280ed4349fd6e6a1b6313546b3d01fdab5/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9f3f2539caf1d1d3bc962f51b12a49523c53a6a135dd252df0b23b14b3515df/EntityFrameworkServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c1da7b6c7c71a954fe3eb2531c6476711b3e6d93a8d76795386d326bb9dbc/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cf91eb35ab781c324ad4fa382dce85631ec37cf3813529f7c92208d866c851/TaskContinuation.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f324c62785677b53e916aa9084ae54a42014c79d132908ae191cf8e3af4cfb/File.cs" root0="SKIP_HIGHLIGHTING" />
@@ -163,7 +143,8 @@
       <workItem from="1652260651588" duration="16141000" />
       <workItem from="1652318817583" duration="594000" />
       <workItem from="1652363264429" duration="389000" />
-      <workItem from="1652447432475" duration="6598000" />
+      <workItem from="1652447432475" duration="13474000" />
+      <workItem from="1652488416780" duration="1811000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1650989643975</created>
@@ -208,34 +189,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/store/Services/AuthenticateService.cs</url>
-          <line>35</line>
-          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Services\AuthenticateService.cs" initialLine="35" containingFunctionPresentation="method 'Register'">
-            <startOffsets>
-              <option value="1153" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1217" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/store/Services/AuthenticateService.cs</url>
-          <line>118</line>
-          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Services\AuthenticateService.cs" initialLine="118" containingFunctionPresentation="method 'Login'">
-            <startOffsets>
-              <option value="3698" />
-              <option value="3763" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3796" />
-              <option value="3794" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/store/Controllers/OrderController.cs</url>
           <line>36</line>
           <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\Controllers\OrderController.cs" initialLine="36" containingFunctionPresentation="method 'CreateOrder'">
@@ -275,6 +228,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/store/SwapConnectionString.cs</url>
+          <line>10</line>
+          <properties documentPath="E:\Study\Nam3\Ky2\CDCNPM\final\flower-store\henrystore\store\SwapConnectionString.cs" initialLine="10" containingFunctionPresentation="method 'SwapDB'">
+            <startOffsets>
+              <option value="304" />
+            </startOffsets>
+            <endOffsets>
+              <option value="305" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

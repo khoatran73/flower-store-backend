@@ -60,9 +60,9 @@ public class AuthenticateController : ControllerBase
     
     [HttpPost(@"login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+    public async Task<IActionResult> Login([FromBody] LoginDto loginDto, Guid? storeId)
     {
-        var result = await _authenticateService.Login(loginDto);
+        var result = await _authenticateService.Login(loginDto, storeId);
 
         return Ok(new ApiResponse<AccountDetailDto>()
         {

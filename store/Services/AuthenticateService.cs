@@ -59,7 +59,7 @@ public class AuthenticateService : IAuthenticateService
     // }
 
     [Obsolete("Obsolete")]
-    public async Task<AccountDto> CreateAccount(AccountCreateDto createDto)
+    public async Task<AccountDto> CreateAccount(AccountCreateDto createDto, Guid? storeId)
     {
         // var validate = await _validator.ValidateAsync(createDto);
         var existAccount = _context.staff.FirstOrDefault(x => x.Username == createDto.Username);
@@ -74,7 +74,8 @@ public class AuthenticateService : IAuthenticateService
         var staff = _mapper.Map<AccountCreateDto, staff>(createDto);
         staff.Salt = salt;
         staff.PasswordHash = passwordHash;
-    
+        staff.StoreId = storeId;
+        
         _context.staff.Add(staff);
         await _context.SaveChangesAsync();
     
@@ -114,23 +115,48 @@ public class AuthenticateService : IAuthenticateService
     }
 
     [Obsolete("Obsolete")]
-    public async Task<AccountDetailDto> Login(LoginDto loginDto)
+    public async Task<AccountDetailDto> Login(LoginDto loginDto, Guid? storeId)
     {
-        var customer = await _context.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-        var staff = await _context.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
-        if (customer == null && staff == null) throw new Exception("Username sai");
+        // var context = _context;
+        if (string.Equals(storeId.ToString(), "AEABAAAD-9B84-4E09-BCC2-1FF599F3B760", StringComparison.CurrentCultureIgnoreCase))
+        {
+            var selectedDb = new henrystoreContext();
+            
+            selectedDb.ChangeDatabase
+            (
+               "Data Source=KHOA-PRO\\TRAM1;Initial Catalog=henrystore;User ID=sa;Password=123456"
+            );
+            
+            var customer = await selectedDb.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+            var staff = await selectedDb.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+            if (customer == null && staff == null) throw new Exception("Username sai");
+
+            // var hash = ;
+
+            if (customer != null && CreateHashSha256(loginDto.Password, customer.Salt) == customer.PasswordHash)
+            {
+                return _mapper.Map<Customer, AccountDetailDto>(customer);
+            } 
+            if (staff != null &&  CreateHashSha256(loginDto.Password, staff.Salt) == staff.PasswordHash)
+            {
+                return _mapper.Map<staff, AccountDetailDto>(staff);
+            }
+        }
+        
+        var cus = await _context.Customers.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        var sta = await _context.staff.FirstOrDefaultAsync(x => x.Username == loginDto.Username);
+        if (cus == null && sta == null) throw new Exception("Username sai");
 
         // var hash = ;
 
-        if (customer != null && CreateHashSha256(loginDto.Password, customer.Salt) == customer.PasswordHash)
+        if (cus != null && CreateHashSha256(loginDto.Password, cus.Salt) == cus.PasswordHash)
         {
-            return _mapper.Map<Customer, AccountDetailDto>(customer);
+            return _mapper.Map<Customer, AccountDetailDto>(cus);
         } 
-        if (staff != null &&  CreateHashSha256(loginDto.Password, staff.Salt) == staff.PasswordHash)
+        if (sta != null &&  CreateHashSha256(loginDto.Password, sta.Salt) == sta.PasswordHash)
         {
-            return _mapper.Map<staff, AccountDetailDto>(staff);
+            return _mapper.Map<staff, AccountDetailDto>(sta);
         }
-
         throw new Exception("Sai mk");
     }
 

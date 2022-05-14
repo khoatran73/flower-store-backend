@@ -6,9 +6,9 @@ namespace store.Services;
 public interface IAuthenticateService
 {
     Task<bool> Register(RegisterDto registerDto);
-    Task<AccountDetailDto> Login(LoginDto loginDto);
+    Task<AccountDetailDto> Login(LoginDto loginDto, Guid? storeId);
     // Task<List<AccountDto>> GetListAccount();
-    Task<AccountDto> CreateAccount(AccountCreateDto createDto);
+    Task<AccountDto> CreateAccount(AccountCreateDto createDto, Guid? storeId);
     Task UpdateAccount(AccountUpdateDto updateDto);
     Task<AccountDto> GetAccount(Guid id);
 }

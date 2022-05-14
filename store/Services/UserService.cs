@@ -19,21 +19,10 @@ public class UserService : IUserService
         _authenticateService = authenticateService;
     }
 
-    public async Task CreateStaff(UserCreateDto createDto)
+    public async Task<List<UserDto>> ListStaff(Guid? storeId)
     {
-        var account = await _authenticateService.CreateAccount(createDto.Account);
-        var staff = new staff
-        {
-            StoreId = createDto.StoreId,
-        };
-
-        _context.staff.Add(staff);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<List<UserDto>> ListStaff()
-    {
-        var userDtos = await _context.staff
+        var db = SwapConnectionString.SwapDB(storeId);
+        var userDtos = await db.staff
             // .Where(x => x.Role != "customer")
             .OrderBy(x => x.StoreId)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)

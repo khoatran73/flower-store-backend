@@ -14,4 +14,5 @@ public class AccountDto
     public string? Address { get; set; }
     public string? Email { get; set; }
     public DateTime? Birthday { get; set; }
+    public Guid? StoreId { get; set; }
 }

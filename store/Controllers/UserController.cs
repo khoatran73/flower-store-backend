@@ -13,13 +13,15 @@ public class UserController : ControllerBase
     private readonly IUserService _userService;
     private readonly IFileService _fileService;
     private readonly ICloudinaryService _cloudinaryService;
+    private readonly IAuthenticateService _authenticateService;
 
 
-    public UserController(IUserService userService, IFileService fileService, ICloudinaryService cloudinaryService)
+    public UserController(IUserService userService, IFileService fileService, ICloudinaryService cloudinaryService, IAuthenticateService authenticateService)
     {
         _userService = userService;
         _fileService = fileService;
         _cloudinaryService = cloudinaryService;
+        _authenticateService = authenticateService;
     }
 
     [HttpPost(@"create-staff")]
@@ -28,7 +30,8 @@ public class UserController : ControllerBase
         // var filePath = await _fileService.UploadFile(createDto.Account.File, "Uploads/staff");
         // createDto.Account.Image = filePath;
 
-        await _userService.CreateStaff(createDto);
+        // await _userService.CreateStaff(createDto);
+        await _authenticateService.CreateAccount(createDto.Account, createDto.StoreId);
 
         return Ok(new ApiResponse<bool>()
         {
@@ -38,9 +41,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet(@"list-staff")]
-    public async Task<IActionResult> ListStaff()
+    public async Task<IActionResult> ListStaff(Guid? storeId)
     {
-        var result = await _userService.ListStaff();
+        var result = await _userService.ListStaff(storeId);
 
         return Ok(new ApiResponse<List<UserDto>>()
         {

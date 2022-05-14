@@ -50,6 +50,18 @@ public class Startup
             }.ToString();
             options.UseSqlServer(connectionString);
         });
+        
+        // services.AddDbContext<Store1DbContext>(options =>
+        // {
+        //     var connectionString = new SqlConnectionStringBuilder()
+        //     {
+        //         DataSource = "KHOA-PRO\\TRAM1",
+        //         InitialCatalog = "henrystore",
+        //         UserID = "sa",
+        //         Password = "123456"
+        //     }.ToString();
+        //     options.UseSqlServer(connectionString);
+        // });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
