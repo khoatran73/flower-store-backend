@@ -125,6 +125,36 @@ namespace store.Entities
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_comment_product");
             });
+            
+            modelBuilder.Entity<Reaction>(entity =>
+            {
+                entity.HasKey(e => new { e.CustomerId, e.CommentId })
+                    .HasName("PK__reaction__7ACC22649347875D");
+            
+                entity.ToTable("reaction");
+            
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_2088394509")
+                    .IsUnique();
+            
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
+            
+                entity.Property(e => e.CommentId).HasColumnName("commentId");
+            
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
+            
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.Reactions)
+                    .HasForeignKey(d => d.CommentId)
+                    .HasConstraintName("fk_reaction_comment");
+            
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Reactions)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_reaction_customer");
+            });
 
             modelBuilder.Entity<Customer>(entity =>
             {

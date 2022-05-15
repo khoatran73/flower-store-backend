@@ -35,5 +35,6 @@ namespace store.Entities
         public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ICollection<Comment> CommentsNavigation { get; set; }
+        public virtual ICollection<Reaction> Reactions { get; set; }
     }
 }

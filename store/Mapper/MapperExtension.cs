@@ -14,6 +14,7 @@ public static class MapperExtension
             config.AddProfile(new StoreProfile());
             config.AddProfile(new CartProfile());
             config.AddProfile(new OrderProfile());
+            config.AddProfile(new CommentProfile());
         });
 
         return mapperConfig.CreateMapper();

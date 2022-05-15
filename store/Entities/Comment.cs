@@ -20,5 +20,6 @@ namespace store.Entities
         public virtual Product? Product { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Reaction> Reactions { get; set; }
     }
 }

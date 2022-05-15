@@ -12,5 +12,7 @@ public static class ServiceExtension
         services.AddTransient<ICloudinaryService, CloudinaryService>();
         services.AddTransient<ICartService, CartService>();
         services.AddTransient<IOrderService, OrderService>();
+        services.AddTransient<IReportService, ReportService>();
+        services.AddTransient<ICommentService, CommentService>();
     }
 }
