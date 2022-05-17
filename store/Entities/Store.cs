@@ -16,6 +16,7 @@ namespace store.Entities
         public string? Address { get; set; }
         public string? Contact { get; set; }
         public string? Name { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<ProductInStore> ProductInStores { get; set; }

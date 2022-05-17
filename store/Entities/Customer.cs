@@ -10,7 +10,7 @@ namespace store.Entities
             Carts = new HashSet<Cart>();
             Comments = new HashSet<Comment>();
             Orders = new HashSet<Order>();
-            CommentsNavigation = new HashSet<Comment>();
+            Reactions = new HashSet<Reaction>();
         }
 
         public Guid Id { get; set; }
@@ -28,13 +28,12 @@ namespace store.Entities
         public string? Email { get; set; }
         public DateTime? Birthday { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual Store? Store { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-
-        public virtual ICollection<Comment> CommentsNavigation { get; set; }
         public virtual ICollection<Reaction> Reactions { get; set; }
     }
 }

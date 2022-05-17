@@ -1,11 +1,15 @@
-namespace store.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Reaction
+namespace store.Entities
 {
-    public Guid CustomerId { get; set; }
-    public Guid CommentId { get; set; }
-    public Guid Rowguid { get; set; }
+    public partial class Reaction
+    {
+        public Guid CustomerId { get; set; }
+        public Guid CommentId { get; set; }
+        public Guid Rowguid { get; set; }
 
-    public virtual Comment Comment { get; set; } = null!;
-    public virtual Customer Customer { get; set; } = null!;
+        public virtual Comment Comment { get; set; } = null!;
+        public virtual Customer Customer { get; set; } = null!;
+    }
 }

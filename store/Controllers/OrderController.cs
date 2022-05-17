@@ -44,4 +44,17 @@ public class OrderController : ControllerBase
         });
     }
     
+    [HttpGet(@"history/{customerId:guid}")]
+    public async Task<IActionResult> History([FromRoute] Guid customerId)
+    {
+        var result = await _orderService.History(customerId);
+        
+        return Ok(new ApiResponse<List<HistoryDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result,
+        });
+    }
+    
 }

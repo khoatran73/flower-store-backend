@@ -20,6 +20,7 @@ namespace store.Entities
         public int? TotalQuantity { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual ProductCategory? Category { get; set; }
         public virtual ICollection<CartDetail> CartDetails { get; set; }

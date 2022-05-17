@@ -24,6 +24,7 @@ namespace store.Entities
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductCategory> ProductCategories { get; set; } = null!;
         public virtual DbSet<ProductInStore> ProductInStores { get; set; } = null!;
+        public virtual DbSet<Reaction> Reactions { get; set; } = null!;
         public virtual DbSet<Store> Stores { get; set; } = null!;
         public virtual DbSet<staff> staff { get; set; } = null!;
 
@@ -42,6 +43,9 @@ namespace store.Entities
             {
                 entity.ToTable("cart");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1832393597")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
@@ -50,10 +54,16 @@ namespace store.Entities
                     .HasColumnType("datetime")
                     .HasColumnName("createdAt")
                     .HasDefaultValueSql("(getdate())");
-                
-                entity.Property(e => e.IsDone).HasColumnName("isDone");
 
                 entity.Property(e => e.CustomerId).HasColumnName("customerId");
+
+                entity.Property(e => e.IsDone)
+                    .HasColumnName("isDone")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
 
@@ -73,6 +83,9 @@ namespace store.Entities
 
                 entity.ToTable("cartDetail");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1896393825")
+                    .IsUnique();
+
                 entity.Property(e => e.CartId).HasColumnName("cartId");
 
                 entity.Property(e => e.ProductId).HasColumnName("productId");
@@ -80,6 +93,10 @@ namespace store.Entities
                 entity.Property(e => e.Price).HasColumnName("price");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Total).HasColumnName("total");
 
@@ -98,6 +115,9 @@ namespace store.Entities
             {
                 entity.ToTable("comment");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_2024394281")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
@@ -113,6 +133,10 @@ namespace store.Entities
 
                 entity.Property(e => e.ProductId).HasColumnName("productId");
 
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.CustomerId)
@@ -125,40 +149,13 @@ namespace store.Entities
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_comment_product");
             });
-            
-            modelBuilder.Entity<Reaction>(entity =>
-            {
-                entity.HasKey(e => new { e.CustomerId, e.CommentId })
-                    .HasName("PK__reaction__7ACC22649347875D");
-            
-                entity.ToTable("reaction");
-            
-                entity.HasIndex(e => e.Rowguid, "MSmerge_index_2088394509")
-                    .IsUnique();
-            
-                entity.Property(e => e.CustomerId).HasColumnName("customerId");
-            
-                entity.Property(e => e.CommentId).HasColumnName("commentId");
-            
-                entity.Property(e => e.Rowguid)
-                    .HasColumnName("rowguid")
-                    .HasDefaultValueSql("(newsequentialid())");
-            
-                entity.HasOne(d => d.Comment)
-                    .WithMany(p => p.Reactions)
-                    .HasForeignKey(d => d.CommentId)
-                    .HasConstraintName("fk_reaction_comment");
-            
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Reactions)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_reaction_customer");
-            });
 
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("customer");
+
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1640392913")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -207,6 +204,10 @@ namespace store.Entities
                     .IsUnicode(false)
                     .HasColumnName("role");
 
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
+
                 entity.Property(e => e.Salt)
                     .IsUnicode(false)
                     .HasColumnName("salt");
@@ -223,28 +224,14 @@ namespace store.Entities
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_customer_store");
-
-                entity.HasMany(d => d.CommentsNavigation)
-                    .WithMany(p => p.Customers)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "Reaction",
-                        l => l.HasOne<Comment>().WithMany().HasForeignKey("CommentId").HasConstraintName("fk_reaction_comment"),
-                        r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("fk_reaction_customer"),
-                        j =>
-                        {
-                            j.HasKey("CustomerId", "CommentId").HasName("PK__reaction__7ACC22649347875D");
-
-                            j.ToTable("reaction");
-
-                            j.IndexerProperty<Guid>("CustomerId").HasColumnName("customerId");
-
-                            j.IndexerProperty<Guid>("CommentId").HasColumnName("commentId");
-                        });
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
+
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1928393939")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -268,6 +255,10 @@ namespace store.Entities
                 entity.Property(e => e.Discount)
                     .HasColumnName("discount")
                     .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.StaffId).HasColumnName("staffId");
 
@@ -303,6 +294,9 @@ namespace store.Entities
             {
                 entity.ToTable("product");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1093578934")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
@@ -322,6 +316,10 @@ namespace store.Entities
 
                 entity.Property(e => e.Name).HasColumnName("name");
 
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
+
                 entity.Property(e => e.TotalQuantity).HasColumnName("totalQuantity");
 
                 entity.Property(e => e.UnitPrice).HasColumnName("unitPrice");
@@ -337,6 +335,9 @@ namespace store.Entities
             {
                 entity.ToTable("productCategory");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_885578193")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
@@ -346,6 +347,10 @@ namespace store.Entities
                     .HasColumnName("code");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
             });
 
             modelBuilder.Entity<ProductInStore>(entity =>
@@ -355,11 +360,18 @@ namespace store.Entities
 
                 entity.ToTable("productInStore");
 
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1205579333")
+                    .IsUnique();
+
                 entity.Property(e => e.ProductId).HasColumnName("productId");
 
                 entity.Property(e => e.StoreId).HasColumnName("storeId");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductInStores)
@@ -372,9 +384,42 @@ namespace store.Entities
                     .HasConstraintName("fk_productInStore_store");
             });
 
+            modelBuilder.Entity<Reaction>(entity =>
+            {
+                entity.HasKey(e => new { e.CustomerId, e.CommentId })
+                    .HasName("PK__reaction__7ACC22649347875D");
+
+                entity.ToTable("reaction");
+
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_2088394509")
+                    .IsUnique();
+
+                entity.Property(e => e.CustomerId).HasColumnName("customerId");
+
+                entity.Property(e => e.CommentId).HasColumnName("commentId");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.Reactions)
+                    .HasForeignKey(d => d.CommentId)
+                    .HasConstraintName("fk_reaction_comment");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Reactions)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_reaction_customer");
+            });
+
             modelBuilder.Entity<Store>(entity =>
             {
                 entity.ToTable("store");
+
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_725577623")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -385,10 +430,17 @@ namespace store.Entities
                 entity.Property(e => e.Contact).HasColumnName("contact");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
             });
 
             modelBuilder.Entity<staff>(entity =>
             {
+                entity.HasIndex(e => e.Rowguid, "MSmerge_index_1736393255")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("(newid())");
@@ -435,6 +487,10 @@ namespace store.Entities
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("role");
+
+                entity.Property(e => e.Rowguid)
+                    .HasColumnName("rowguid")
+                    .HasDefaultValueSql("(newsequentialid())");
 
                 entity.Property(e => e.Salt)
                     .IsUnicode(false)

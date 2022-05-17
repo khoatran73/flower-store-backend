@@ -10,6 +10,11 @@ public class OrderProfile : Profile
     {
         CreateMap<OrderCreateDto, Order>();
         CreateMap<Order, OrderDto>();
+
+        CreateMap<Product, HistoryProduct>();
+        CreateMap<CartDetail, HistoryCartDetail>();
+        CreateMap<Cart, HistoryCart>();
+        CreateMap<Order, HistoryDto>();
     }
     
 }

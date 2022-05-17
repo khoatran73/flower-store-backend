@@ -10,5 +10,7 @@ public class CommentDto
     public Guid? ProductId { get; set; }
     public string? Content { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public int CountLike { get; set; }
     public virtual UserDto? Customer { get; set; }
+    public virtual ICollection<ReactionDto> Reactions { get; set; }
 }

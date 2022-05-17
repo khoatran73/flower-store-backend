@@ -39,4 +39,15 @@ public class CommentController : ControllerBase
             // Result = result
         });
     }
+    
+    [HttpPost(@"reaction/create")]
+    public async Task<IActionResult> CreateReaction([FromBody] ReactionCreateDto createDto)
+    {
+        await _commentService.CreateReaction(createDto);
+        return Ok(new ApiResponse<bool>()
+        {
+            Success = true,
+            Message = "",
+        });
+    }
 }

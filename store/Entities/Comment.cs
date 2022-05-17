@@ -7,7 +7,7 @@ namespace store.Entities
     {
         public Comment()
         {
-            Customers = new HashSet<Customer>();
+            Reactions = new HashSet<Reaction>();
         }
 
         public Guid Id { get; set; }
@@ -15,11 +15,10 @@ namespace store.Entities
         public Guid? ProductId { get; set; }
         public string? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual Customer? Customer { get; set; }
         public virtual Product? Product { get; set; }
-
-        public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Reaction> Reactions { get; set; }
     }
 }

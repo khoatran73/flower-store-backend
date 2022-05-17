@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using store.Dto.Authenticate;
+using store.Dto.Comment;
 using store.Entities;
 using store.Mapper;
 using store.Services;
@@ -22,6 +23,7 @@ public class Startup
         services.AddControllers().AddNewtonsoftJson();
         services.AddService();
         services.AddScoped<IValidator<RegisterDto>, ValidateRegisterDto>();
+        services.AddScoped<IValidator<CommentCreateDto>, ValidateCommentCreateDto>();
         
         var mapper = MapperExtension.AddMapper();
         services.AddSingleton(mapper);

@@ -16,6 +16,7 @@ namespace store.Entities
         public string? Status { get; set; }
         public DateTime? DeliveryAt { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual Cart? Cart { get; set; }
         public virtual Customer? Customer { get; set; }

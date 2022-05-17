@@ -25,6 +25,7 @@ namespace store.Entities
         public string? Email { get; set; }
         public DateTime? Birthday { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public Guid Rowguid { get; set; }
 
         public virtual Store? Store { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

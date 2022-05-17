@@ -34,4 +34,15 @@ public class OrderService : IOrderService
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<HistoryDto>> History(Guid customerId, CancellationToken cancellationToken = default)
+    {
+        var listOrders = await _context.Orders
+            .Where(x => x.CustomerId == customerId)
+            .OrderByDescending(x => x.CreatedAt)
+            .ProjectTo<HistoryDto>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        return listOrders;
+    }
 }
