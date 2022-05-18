@@ -79,7 +79,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPut(@"update/{id:guid}")]
+    [HttpPost(@"update/{id:guid}")]
     public async Task<IActionResult> Update([FromForm] ProductUpdateDto updateDto, [FromRoute] Guid id)
     {
         if (updateDto.File != null)

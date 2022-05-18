@@ -1,4 +1,5 @@
 using store.Dto.Cart;
+using store.Dto.Product;
 
 namespace store.Dto.Order;
 
@@ -25,7 +26,7 @@ public class HistoryCartDetail
 {
     public int? Quantity { get; set; }
     public int? Price { get; set; }
-    public HistoryProduct Product { get; set; }
+    public ProductDto Product { get; set; }
 }
 
 public class HistoryProduct

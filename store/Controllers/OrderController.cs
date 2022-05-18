@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using store.Api;
 using store.Dto.Order;
+using store.Dto.Product;
 using store.Services;
 
 namespace store.Controllers;
@@ -56,5 +57,5 @@ public class OrderController : ControllerBase
             Result = result,
         });
     }
-    
+
 }

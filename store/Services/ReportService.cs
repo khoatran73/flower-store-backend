@@ -11,7 +11,7 @@ public class ReportService : IReportService
 {
     private readonly IMapper _mapper;
     private readonly henrystoreContext _context;
-    
+
     public ReportService(IMapper mapper, henrystoreContext context)
     {
         _mapper = mapper;
@@ -40,6 +40,7 @@ public class ReportService : IReportService
                 }
             }
 
+            if (countSold <= 0) continue;
             var productDto = _mapper.Map<Product, ProductDto>(product);
             productDto.CountSold = countSold;
             productDtos.Add(productDto);
@@ -54,18 +55,18 @@ public class ReportService : IReportService
     public async Task Test()
     {
         var dt = DateTime.ParseExact("2022-05-14 22:19:18.403", "yyyy/MM/DD", CultureInfo.InvariantCulture);
-            
+
         var customers = _context.Customers
-            .GroupBy(x =>  x.CreatedAt)
+            .GroupBy(x => x.CreatedAt)
             .Select(x => new
             {
                 Value = x.Count(),
                 // Replace the commented line
                 //Day = (DateTime)DbFunctions.TruncateTime(x.Key)
                 // ...with this line
-                Day = (DateTime)x.Key
+                Day = (DateTime) x.Key
             }).ToList();
-        
+
         throw new NotImplementedException();
     }
 }

@@ -87,11 +87,11 @@ public class AuthenticateController : ControllerBase
     
     // [HttpPost(@"create-account")]
     // [AllowAnonymous]
-    // public async Task<IActionResult> CreateAccount([FromForm] AccountCreateDto createDto)
+    // public async Task<IActionResult> CreateStaff([FromForm] AccountCreateDto createDto)
     // {
     //     var filePath = await _fileService.UploadFile(createDto.File, "Uploads/account");
     //     createDto.Image = filePath;
-    //     var result = await _authenticateService.CreateAccount(createDto);
+    //     var result = await _authenticateService.CreateStaff(createDto);
     //
     //     return Ok(new ApiResponse<AccountDto>()
     //     {

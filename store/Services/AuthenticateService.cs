@@ -59,7 +59,7 @@ public class AuthenticateService : IAuthenticateService
     // }
 
     [Obsolete("Obsolete")]
-    public async Task<AccountDto> CreateAccount(AccountCreateDto createDto, Guid? storeId)
+    public async Task<AccountDto> CreateStaff(AccountCreateDto createDto, Guid? storeId)
     {
         // var validate = await _validator.ValidateAsync(createDto);
         var db = SwapConnectionString.SwapDB(storeId);
@@ -76,7 +76,6 @@ public class AuthenticateService : IAuthenticateService
         var staff = _mapper.Map<AccountCreateDto, staff>(createDto);
         staff.Salt = salt;
         staff.PasswordHash = passwordHash;
-        staff.StoreId = storeId;
         
         db.staff.Add(staff);
         await db.SaveChangesAsync();
@@ -84,16 +83,29 @@ public class AuthenticateService : IAuthenticateService
         return _mapper.Map<staff, AccountDto>(staff);
     }
 
-    // public async Task UpdateAccount(CustomerUpdateDto updateDto)
-    // {
-    //     var customer = _context.Customers.FirstOrDefault(x => x.Id == updateDto.Id);
-    //     customer.Fullname = updateDto.Fullname;
-    //     customer.Address = updateDto.Address;
-    //     customer.Phone = updateDto.Phone;
-    //     customer.Email = updateDto.Email;
-    //
-    //     await _context.SaveChangesAsync();
-    // }
+    [Obsolete("Obsolete")]
+    public async Task CreateCustomer(AccountCreateDto createDto, Guid? storeId)
+    {
+        // var validate = await _validator.ValidateAsync(createDto);
+        var db = SwapConnectionString.SwapDB(storeId);
+        
+        var existAccount = db.Customers.FirstOrDefault(x => x.Username == createDto.Username);
+    
+        if (createDto.Password != createDto.ConfirmPassword || existAccount != null)
+            throw new Exception("Error");
+        
+        
+        var salt = CreateSalt(SizeSalt);
+        var passwordHash = CreateHashSha256(createDto.Password, salt);
+    
+        var customer = _mapper.Map<AccountCreateDto, Customer>(createDto);
+        customer.Salt = salt;
+        customer.PasswordHash = passwordHash;
+        customer.Role = "customer";
+        
+        db.Customers.Add(customer);
+        await db.SaveChangesAsync();
+    }
 
     public async Task<AccountDto> GetAccount(Guid id)
     {

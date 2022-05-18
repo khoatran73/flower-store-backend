@@ -43,11 +43,6 @@ public class UserService : IUserService
         return userDto;
     }
 
-    public Task CreateCustomer(UserCreateDto createDto)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Guid> GetCustomerId(Guid accountId)
     {
         var customer = _context.Customers.FirstOrDefault(x => x.Id == accountId);
@@ -95,7 +90,7 @@ public class UserService : IUserService
     // public async Task UpdateCustomer(UserCreateDto createDto)
     // {
     //     var account = _context.Accounts.FirstOrDefault(x => x.Id == createDto.Account.);
-    //         // _authenticateService.CreateAccount(createDto.Account);
+    //         // _authenticateService.CreateStaff(createDto.Account);
     //     var customer = new Customer
     //     {
     //         AccountId = account.Id,

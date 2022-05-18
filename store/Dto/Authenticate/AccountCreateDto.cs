@@ -15,4 +15,5 @@ public class AccountCreateDto
     public string? Email { get; set; }
     public DateTime? Birthday { get; set; }
     public IFormFile? File { get; set; }
+    public Guid StoreId { get; set; }
 }

@@ -8,7 +8,7 @@ public interface IAuthenticateService
     Task<bool> Register(RegisterDto registerDto);
     Task<AccountDetailDto> Login(LoginDto loginDto);
     // Task<List<AccountDto>> GetListAccount();
-    Task<AccountDto> CreateAccount(AccountCreateDto createDto, Guid? storeId);
-    // Task UpdateAccount(CustomerUpdateDto updateDto);
+    Task<AccountDto> CreateStaff(AccountCreateDto createDto, Guid? storeId);
+    Task CreateCustomer(AccountCreateDto createDto, Guid? storeId);
     Task<AccountDto> GetAccount(Guid id);
 }

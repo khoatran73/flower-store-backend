@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using store.Dto.Order;
+using store.Dto.Product;
 using store.Entities;
 
 namespace store.Services;

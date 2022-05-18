@@ -26,13 +26,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost(@"create-staff")]
-    public async Task<IActionResult> Register([FromBody] UserCreateDto createDto)
+    public async Task<IActionResult> CreateStaff([FromBody] UserCreateDto createDto)
     {
         // var filePath = await _fileService.UploadFile(createDto.Account.File, "Uploads/staff");
         // createDto.Account.Image = filePath;
 
         // await _userService.CreateStaff(createDto);
-        await _authenticateService.CreateAccount(createDto.Account, createDto.StoreId);
+        await _authenticateService.CreateStaff(createDto.Account, createDto.StoreId);
 
         return Ok(new ApiResponse<bool>()
         {
@@ -97,7 +97,7 @@ public class UserController : ControllerBase
     [HttpPost(@"create-customer")]
     public async Task<IActionResult> CreateCustomer([FromBody] UserCreateDto createDto)
     {
-        await _userService.CreateCustomer(createDto);
+        await _authenticateService.CreateCustomer(createDto.Account, createDto.StoreId);
 
         return Ok(new ApiResponse<bool>()
         {

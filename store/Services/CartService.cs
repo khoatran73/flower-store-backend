@@ -114,7 +114,7 @@ public class CartService : ICartService
             .Include(x => x.CartDetails)
             .Single();
         if (cart == null) throw new Exception("Cart null");
-        
+
         var cartDetail = cart.CartDetails
             .FirstOrDefault(x => x.CartId == cartId && x.ProductId == productId);
 
@@ -135,10 +135,11 @@ public class CartService : ICartService
 
     public async Task SetDone(Guid id)
     {
-        var cart = _context.Carts.Include(x => x.CartDetails)
-            .FirstOrDefault(x => x.Id == id && x.IsDone != true);
+        var cart = await _context.Carts
+            .Include(x => x.CartDetails)
+            .FirstOrDefaultAsync(x => x.Id == id && x.IsDone != true);
 
-        if (cart == null) throw new NotImplementedException();
+        if (cart == null) throw new Exception("err");
 
         var cartDetails = cart.CartDetails;
         foreach (var cartDetail in cartDetails)

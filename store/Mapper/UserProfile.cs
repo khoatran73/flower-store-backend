@@ -21,6 +21,7 @@ public class UserProfile : Profile
         CreateMap<staff, AccountDetailDto>();
 
         CreateMap<AccountCreateDto, staff>();
+        CreateMap<AccountCreateDto, Customer>();
         CreateMap<CustomerUpdateDto, Customer>();
     }
 }
