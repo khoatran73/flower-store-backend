@@ -11,5 +11,6 @@ public interface ICartService
     Task<List<CartDto>> GetCart(Guid? accountId, Guid? id);
     Task RemoveCartDetail(Guid cartId, Guid productId);
     Task RemoveCart(Guid id);
-    Task SetDone(Guid id);
+    Task SetDone(Guid id, CancellationToken cancellationToken = default);
+    Task UpdateProductQuantity(Guid cartId);
 }

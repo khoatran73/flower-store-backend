@@ -133,11 +133,23 @@ public class CartService : ICartService
         await _context.SaveChangesAsync();
     }
 
-    public async Task SetDone(Guid id)
+    public async Task SetDone(Guid id, CancellationToken cancellationToken = default)
+    {
+        var cart = await _context.Carts
+            .FirstOrDefaultAsync(x => x.Id == id && x.IsDone != true, cancellationToken: cancellationToken);
+
+        if (cart == null) throw new Exception("err");
+
+        cart.IsDone = true;
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateProductQuantity(Guid cartId)
     {
         var cart = await _context.Carts
             .Include(x => x.CartDetails)
-            .FirstOrDefaultAsync(x => x.Id == id && x.IsDone != true);
+            .FirstOrDefaultAsync(x => x.Id == cartId);
 
         if (cart == null) throw new Exception("err");
 
@@ -145,18 +157,15 @@ public class CartService : ICartService
         foreach (var cartDetail in cartDetails)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == cartDetail.ProductId);
-            if (product != null && (product.TotalQuantity - cartDetail.Quantity > 0))
+            if (product != null && (product.TotalQuantity - cartDetail.Quantity >= 0))
             {
-                product.TotalQuantity = product.TotalQuantity - cartDetail.Quantity;
-                _context.Products.Update(product);
+                product.TotalQuantity -= cartDetail.Quantity;
             }
             else
             {
                 throw new Exception("err");
             }
         }
-
-        cart.IsDone = true;
 
         await _context.SaveChangesAsync();
     }

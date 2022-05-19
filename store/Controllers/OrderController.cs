@@ -35,8 +35,9 @@ public class OrderController : ControllerBase
     [HttpPost(@"create")]
     public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto createDto, [FromQuery] Guid? storeId)
     {
-        await _cartService.SetDone(createDto.CartId);
         await _orderService.CreateOrder(createDto, storeId);
+        await _cartService.UpdateProductQuantity(createDto.CartId);
+        await _cartService.SetDone(createDto.CartId);
         
         return Ok(new ApiResponse<OrderDto>()
         {
