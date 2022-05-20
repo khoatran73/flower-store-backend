@@ -11,4 +11,5 @@ public interface IAuthenticateService
     Task<AccountDto> CreateStaff(AccountCreateDto createDto, Guid? storeId);
     Task CreateCustomer(AccountCreateDto createDto, Guid? storeId);
     Task<AccountDto> GetAccount(Guid id);
+    Task ResetPassword(ResetPasswordDto resetPasswordDto);
 }

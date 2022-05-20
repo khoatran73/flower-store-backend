@@ -87,17 +87,6 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
     }
 
-    // public async Task UpdateCustomer(UserCreateDto createDto)
-    // {
-    //     var account = _context.Accounts.FirstOrDefault(x => x.Id == createDto.Account.);
-    //         // _authenticateService.CreateStaff(createDto.Account);
-    //     var customer = new Customer
-    //     {
-    //         AccountId = account.Id,
-    //         StoreId = createDto.StoreId,
-    //     };
-    //
-    //     _context.Customers.Add(customer);
-    //     await _context.SaveChangesAsync();
-    // }
+   
+
 }

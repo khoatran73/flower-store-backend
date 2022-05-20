@@ -166,4 +166,47 @@ public class AuthenticateService : IAuthenticateService
         return Convert.ToHexString(hash);
         // return ByteArrayToHexString(hash);
     }
+    
+    public async Task ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmNewPassword)
+        {
+            throw new Exception("nhap lai pass sai");
+        }
+        
+        var customer = _context.Customers
+            .FirstOrDefault(x => x.Id == resetPasswordDto.Id);
+        
+        var staff = _context.staff
+            .FirstOrDefault(x => x.Id == resetPasswordDto.Id);
+
+        if (staff is null && customer is null) throw new Exception("Not found");
+
+        if (staff is not null)
+        {
+            if (CreateHashSha256(resetPasswordDto.OldPassword, staff.Salt) == staff.PasswordHash)
+            {
+                var salt = CreateSalt(SizeSalt);
+                var passwordHash = CreateHashSha256(resetPasswordDto.NewPassword, salt);
+                
+                staff.Salt = salt;
+                staff.PasswordHash = passwordHash;
+            }
+        }
+
+        if (customer is not null)
+        {
+            if (CreateHashSha256(resetPasswordDto.OldPassword, customer.Salt) == customer.PasswordHash)
+            {
+                var salt = CreateSalt(SizeSalt);
+                var passwordHash = CreateHashSha256(resetPasswordDto.NewPassword, salt);
+                
+                customer.Salt = salt;
+                customer.PasswordHash = passwordHash;
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        
+    }
 }

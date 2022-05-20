@@ -72,32 +72,16 @@ public class AuthenticateController : ControllerBase
         });
     }
     
-    // [HttpPost(@"update-account")]
-    // [AllowAnonymous]
-    // public async Task<IActionResult> Update(CustomerUpdateDto updateDto)
-    // {
-    //     await _authenticateService.UpdateAccount(updateDto);
-    //
-    //     return Ok(new ApiResponse<AccountDto>()
-    //     {
-    //         Success = true,
-    //         Message = "",
-    //     });
-    // }
-    
-    // [HttpPost(@"create-account")]
-    // [AllowAnonymous]
-    // public async Task<IActionResult> CreateStaff([FromForm] AccountCreateDto createDto)
-    // {
-    //     var filePath = await _fileService.UploadFile(createDto.File, "Uploads/account");
-    //     createDto.Image = filePath;
-    //     var result = await _authenticateService.CreateStaff(createDto);
-    //
-    //     return Ok(new ApiResponse<AccountDto>()
-    //     {
-    //         Success = true,
-    //         Message = "",
-    //         Result = result,
-    //     });
-    // }
+    [HttpPost(@"reset-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+    {
+        await _authenticateService.ResetPassword(resetPasswordDto);
+
+        return Ok(new ApiResponse<bool>()
+        {
+            Success = true,
+            Message = "",
+        });
+    }
 }

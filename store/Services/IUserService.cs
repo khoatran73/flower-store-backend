@@ -12,6 +12,6 @@ public interface IUserService
     Task UpdateCustomer(CustomerUpdateDto updateDto, Guid id);
 
     Task UpdateCustomerImage(string image, Guid? id);
+
     
-    // Task <> 
 }
