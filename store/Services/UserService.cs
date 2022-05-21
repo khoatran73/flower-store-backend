@@ -11,14 +11,11 @@ public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly henrystoreContext _context;
-    private readonly IAuthenticateService _authenticateService;
-    private IUserService _userServiceImplementation;
 
-    public UserService(IMapper mapper, henrystoreContext context, IAuthenticateService authenticateService)
+    public UserService(IMapper mapper, henrystoreContext context)
     {
         _mapper = mapper;
         _context = context;
-        _authenticateService = authenticateService;
     }
 
     public async Task<List<UserDto>> ListStaff(Guid? storeId)
