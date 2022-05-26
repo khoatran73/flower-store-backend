@@ -18,25 +18,25 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<List<ProductDto>> GetList(Guid? id, Guid? categoryId, Guid? storeId)
+    public async Task<List<ProductDto>> GetList(Guid? id, string? categoryCode, Guid? storeId)
     {
         var db = SwapConnectionString.SwapDB(storeId);
         
-        if (categoryId != null && id != null)
+        if (categoryCode != null && id != null)
         {
             return await db.Products
                 .Where(x => x.TotalQuantity > 0)
-                .Where(x => x.CategoryId == categoryId)
+                .Where(x => x.Category.Code == categoryCode)
                 .Where(x => x.Id != id)
                 .OrderByDescending(x => x.CreatedAt)
                 .Take(LimitRelatedProduct)
                 .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-        } else if (categoryId != null)
+        } else if (categoryCode != null)
         {
             return await db.Products
                 .Where(x => x.TotalQuantity > 0)
-                .Where(x => x.CategoryId == categoryId)
+                .Where(x => x.Category.Code == categoryCode)
                 .OrderByDescending(x => x.CreatedAt)
                 .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();

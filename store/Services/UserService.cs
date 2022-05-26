@@ -71,7 +71,7 @@ public class UserService : IUserService
         customer.Email = updateDto.Email;
         customer.Birthday = updateDto.Birthday;
 
-        _context.Customers.Update(customer);
+        // _context.Customers.Update(customer);
         await _context.SaveChangesAsync();
     }
 
