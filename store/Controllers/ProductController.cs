@@ -21,9 +21,34 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet(@"")]
-    public async Task<IActionResult> Index([FromQuery] Guid? id, string? categoryCode, Guid? storeId)
+    public async Task<IActionResult> Index()
     {
-        var result = await _productService.GetList(id, categoryCode, storeId);
+        var result = await _productService.GetListAsync();
+        return Ok(new ApiResponse<List<ProductDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
+    }
+    
+    
+    [HttpGet(@"get-list-related-product")]
+    public async Task<IActionResult> GetListRelatedProduct([FromQuery] Guid id, string? categoryCode)
+    {
+        var result = await _productService.GetListRelated(id, categoryCode);
+        return Ok(new ApiResponse<List<ProductDto>>()
+        {
+            Success = true,
+            Message = "",
+            Result = result
+        });
+    }
+    
+    [HttpGet(@"get-list-by-category")]
+    public async Task<IActionResult> GetListByCategoryCode([FromQuery] string? categoryCode, string? searchKey)
+    {
+        var result = await _productService.GetListByCategoryCode(categoryCode, searchKey);
         return Ok(new ApiResponse<List<ProductDto>>()
         {
             Success = true,

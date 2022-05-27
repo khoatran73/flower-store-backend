@@ -17,33 +17,36 @@ public class ProductService : IProductService
         _context = context;
         _mapper = mapper;
     }
-
-    public async Task<List<ProductDto>> GetList(Guid? id, string? categoryCode, Guid? storeId)
+    
+    public async Task<List<ProductDto>> GetListAsync()
     {
-        var db = SwapConnectionString.SwapDB(storeId);
-        
-        if (categoryCode != null && id != null)
-        {
-            return await db.Products
-                .Where(x => x.TotalQuantity > 0)
-                .Where(x => x.Category.Code == categoryCode)
-                .Where(x => x.Id != id)
-                .OrderByDescending(x => x.CreatedAt)
-                .Take(LimitRelatedProduct)
-                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        } else if (categoryCode != null)
-        {
-            return await db.Products
-                .Where(x => x.TotalQuantity > 0)
-                .Where(x => x.Category.Code == categoryCode)
-                .OrderByDescending(x => x.CreatedAt)
-                .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
-
-        return await db.Products
+        return await _context.Products
             .OrderByDescending(x => x.CreatedAt)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
+    public async Task<List<ProductDto>> GetListByCategoryCode(string? categoryCode, string? searchKey)
+    {
+        var search = searchKey ?? "";
+        var code = categoryCode ?? "";
+        return await _context.Products
+            .Where(x => x.TotalQuantity > 0)
+            .Where(x => x.Category.Code.Contains(code))
+            .Where(x => x.Name.Contains(search))
+            .OrderByDescending(x => x.CreatedAt)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
+    public async Task<List<ProductDto>> GetListRelated(Guid id, string? categoryCode)
+    {
+        return await _context.Products
+            .Where(x => x.Id != id)
+            .Where(x => x.Category.Code == categoryCode)
+            .Where(x => x.TotalQuantity > 0)
+            .OrderByDescending(x => x.CreatedAt)
+            .Take(LimitRelatedProduct)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
